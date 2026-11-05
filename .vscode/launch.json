@@ -5,6 +5,7 @@
       "name": "Preview Ectoplasma",
       "type": "extensionHost",
       "request": "launch",
+      "preLaunchTask": "Build theme",
       "args": [
         "--extensionDevelopmentPath=${workspaceFolder}",
         "${workspaceFolder}/samples"
