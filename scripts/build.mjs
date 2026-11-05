@@ -4,7 +4,7 @@ import { tokenColors, semanticTokenColors } from '../src/syntax.js';
 
 const theme = {
   $schema: 'vscode://schemas/color-theme',
-  name: 'Ectoplasma',
+  name: 'Ectoplasm',
   type: 'dark',
   semanticHighlighting: true,
   colors,
@@ -12,7 +12,7 @@ const theme = {
   semanticTokenColors,
 };
 
-const output = new URL('../themes/Ectoplasma-color-theme.json', import.meta.url);
+const output = new URL('../themes/Ectoplasm-color-theme.json', import.meta.url);
 const content = `${JSON.stringify(theme, null, 2)}\n`;
 
 if (process.argv.includes('--check')) {
@@ -27,5 +27,5 @@ if (process.argv.includes('--check')) {
 } else {
   await mkdir(new URL('../themes/', import.meta.url), { recursive: true });
   await writeFile(output, content);
-  console.log('Generated themes/Ectoplasma-color-theme.json');
+  console.log('Generated themes/Ectoplasm-color-theme.json');
 }

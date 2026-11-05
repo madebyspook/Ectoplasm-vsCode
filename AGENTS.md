@@ -1,22 +1,22 @@
-# AGENTS.md — Ectoplasma VS Code
+# AGENTS.md — Ectoplasm VS Code
 
 ## Project Overview
 
-Ectoplasma is a custom dark theme for Visual Studio Code, part of the
+Ectoplasm is a custom dark theme for Visual Studio Code, part of the
 Made by Spook ecosystem.
 
 The theme shares its visual identity with Ectoplasma for Discord and Notion.
 
 ### Project Identity
 
-- Repository: Ectoplasma-vsCode
-- Extension display name: Ectoplasma
-- Theme name: Ectoplasma
+- Repository: Ectoplasm-vsCode
+- Extension display name: Ectoplasm
+- Theme name: Ectoplasm
 - Theme type: Dark
 - Platform: Visual Studio Code
 - Distribution: VS Code extension (VSIX)
 
-The current theme is a provisional dark foundation. The final Ectoplasma
+The current theme is a provisional dark foundation. The final Ectoplasm
 palette and optional glow are not implemented yet.
 
 ### Design Goals
@@ -102,7 +102,7 @@ Use the standard VS Code color theme extension architecture.
 
 Expected structure:
 
-    Ectoplasma-vsCode/
+    Ectoplasm-vsCode/
     ├── AGENTS.md
     ├── package.json
     ├── package-lock.json
@@ -129,7 +129,7 @@ Expected structure:
     │   ├── workbench.js
     │   └── syntax.js
     └── themes/
-        └── Ectoplasma-color-theme.json
+        └── Ectoplasm-color-theme.json
 
 The actual project structure may evolve as development progresses.
 
@@ -139,15 +139,15 @@ The actual project structure may evolve as development progresses.
 - Run `npm ci` to install the locked development dependencies.
 - Run `npm run build` to generate the theme once, or `npm run watch` to build
   on startup and rebuild when source modules change using Node's native watcher.
-- Open the repository in VS Code and press F5 using **Preview Ectoplasma**;
+- Open the repository in VS Code and press F5 using **Preview Ectoplasm**;
   its pre-launch task builds the theme first.
-  Select **Ectoplasma** in the Extension Development Host's Color Theme picker.
+  Select **Ectoplasm** in the Extension Development Host's Color Theme picker.
 - Edit `src/palette.js`, `src/workbench.js`, or `src/syntax.js`; with watch mode
   running, saved changes regenerate the theme and update the host live.
 - Run `npm test` to build and validate the generated theme, manifest,
   configuration JSON, color values, token settings, and declarative boundary.
 - Run `npm run check` for read-only validation, including a stale-output check.
-- Run `npm run package` to rebuild, validate, and create the ignored `ectoplasma.vsix`.
+- Run `npm run package` to rebuild, validate, and create the ignored `ectoplasm.vsix`.
 - Run `npm run install:local` to install that VSIX using the `code` CLI,
   or use **Extensions: Install from VSIX…** in VS Code.
 - There is no runtime extension code or runtime dependency. The only direct
@@ -161,7 +161,7 @@ The actual project structure may evolve as development progresses.
 - `src/workbench.js` maps workbench color keys to the palette.
 - `src/syntax.js` defines TextMate and semantic token rules using the palette.
 - `scripts/build.mjs` combines those native ES modules into the theme JSON.
-- `themes/Ectoplasma-color-theme.json` is tracked generated output. Regenerate
+- `themes/Ectoplasm-color-theme.json` is tracked generated output. Regenerate
   it with source changes; never edit it manually.
 - The ignored VSIX is a packaging artifact; source modules are not shipped.
 
@@ -329,7 +329,7 @@ Do not create a separate summary document.
 
 ## Guiding Principles
 
-- Maintain consistency with the Ectoplasma visual identity.
+- Maintain consistency with the Ectoplasm visual identity.
 - Prefer maintainability over clever implementations.
 - Keep the standard theme independent of optional enhancements.
 - Respect existing project architecture and conventions.

@@ -1,4 +1,4 @@
-# Ectoplasma preview
+# Ectoplasm preview
 
 Check **bold**, *italic*, `inline code`, and [links](https://code.visualstudio.com).
 
@@ -9,5 +9,5 @@ Check **bold**, *italic*, `inline code`, and [links](https://code.visualstudio.c
 - Selected text, search matches, and diagnostics
 
 ```ts
-const theme = { name: "Ectoplasma", enabled: true };
+const theme = { name: "Ectoplasm", enabled: true };
 ```

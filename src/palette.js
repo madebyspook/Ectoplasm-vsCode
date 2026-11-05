@@ -1,4 +1,4 @@
-// Existing foundation colors; final Ectoplasma palette mapping is a later phase.
+// Existing foundation colors; final Ectoplasm palette mapping is a later phase.
 export const palette = {
   editorBackground: '#1F1F1F',
   editorForeground: '#D4D4D4',

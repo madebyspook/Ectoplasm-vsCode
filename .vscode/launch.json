@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Preview Ectoplasma",
+      "name": "Preview Ectoplasm",
       "type": "extensionHost",
       "request": "launch",
       "preLaunchTask": "Build theme",
