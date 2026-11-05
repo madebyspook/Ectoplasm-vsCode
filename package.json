@@ -1,0 +1,43 @@
+{
+  "name": "ectoplasma",
+  "displayName": "Ectoplasma",
+  "description": "A dark color theme foundation for the Ectoplasma visual identity.",
+  "version": "0.0.1",
+  "publisher": "madebyspook",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "vscode": "^1.85.0",
+    "node": ">=22"
+  },
+  "categories": ["Themes"],
+  "keywords": ["ectoplasma", "dark", "theme"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/madebyspook/Ectoplasma-vsCode.git"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Ectoplasma",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Ectoplasma-color-theme.json"
+      }
+    ]
+  },
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "test": "npm run check",
+    "vscode:prepublish": "npm run check",
+    "package": "vsce package --no-dependencies --out ectoplasma.vsix",
+    "install:local": "code --install-extension ectoplasma.vsix"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "4.1.0"
+  },
+  "overrides": {
+    "@vscode/vsce": {
+      "minimatch": "11.0.1"
+    }
+  }
+}
