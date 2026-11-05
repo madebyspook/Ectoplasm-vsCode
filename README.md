@@ -6,16 +6,20 @@ The current colors are provisional VS Code Dark Modern/Dark+ values, with a smal
 
 ## Develop and preview
 
-Requires VS Code 1.85+ and Node.js 22+ with npm. No build or watcher is needed for theme edits.
+Requires VS Code 1.85+ and Node.js 22+ with npm.
 
 ```sh
 npm ci
+npm run build
 code .
 ```
 
-1. Press **F5** (or Run and Debug → **Preview Ectoplasma**) to open an Extension Development Host with the `samples/` folder.
-2. Run **Preferences: Color Theme** in that window and select **Ectoplasma**.
-3. Edit `themes/Ectoplasma-color-theme.json` and save. Theme changes update live in the development host.
+1. Run `npm run watch` in a terminal to rebuild automatically when source modules change. Watch mode also builds once on startup; press Ctrl+C to stop it.
+2. Press **F5** (or Run and Debug → **Preview Ectoplasma**) to build the theme and open an Extension Development Host with the `samples/` folder.
+3. Run **Preferences: Color Theme** in that window and select **Ectoplasma**.
+4. Edit `src/palette.js` for shared colors, `src/workbench.js` for interface mappings, or `src/syntax.js` for TextMate and semantic rules. With watch mode running, saved changes rebuild the JSON and update the development host live. For a one-off rebuild, run `npm run build`.
+
+`themes/Ectoplasma-color-theme.json` is tracked generated output. Do not edit it manually; include the rebuilt file with source changes.
 
 `colors` controls the workbench; `tokenColors` controls TextMate scopes; `semanticTokenColors` refines language-service tokens. Semantic highlighting is enabled where a language provider supports it. Use **Developer: Inspect Editor Tokens and Scopes** to identify actual scopes before adding rules.
 
@@ -29,12 +33,16 @@ npm run install:local
 
 Packaging creates the ignored `ectoplasma.vsix` using the official `@vscode/vsce` development tool. Its `minimatch` dependency is overridden to patched version 11.0.1; remove that override when the packager updates its dependency. Installation uses `code --install-extension`; alternatively, run **Extensions: Install from VSIX…** and choose that file. Select **Ectoplasma** afterward. Nothing is published to the Marketplace. If `code` is missing, run **Shell Command: Install 'code' command in PATH** from VS Code, or use its UI.
 
+`npm test` rebuilds and validates the generated theme. `npm run check` checks it without writing files and fails if output is missing or stale. Packaging runs the same rebuild and validation before creating the VSIX, so stale JSON is not packaged.
+
 For manual checks, open the TypeScript, HTML/CSS, and Markdown samples; compare semantic highlighting on/off using `editor.semanticHighlighting.enabled`; inspect selections, search matches, diagnostics, terminal, sidebar, tabs, panels, and menus. Automated checks cover JSON, contribution paths, color values, token settings, and the declarative extension boundary; they do not verify visual contrast or every language grammar.
 
 ## Project files
 
 - `package.json` — extension contribution and development scripts; no runtime dependencies.
-- `themes/Ectoplasma-color-theme.json` — directly editable theme; no generated theme artifacts.
+- `src/palette.js` — shared colors; `src/workbench.js` — interface mappings; `src/syntax.js` — TextMate and semantic rules.
+- `scripts/build.mjs` — deterministic theme generation and stale-output check; `npm run watch` uses Node's built-in watch mode.
+- `themes/Ectoplasma-color-theme.json` — generated theme consumed by VS Code.
 - `.vscode/` — preview launch configuration and validation task.
 - `samples/` — local visual checks; `scripts/check.mjs` — dependency-free validation.
 - `docs/research.md` — reference findings and optional glow recommendation.

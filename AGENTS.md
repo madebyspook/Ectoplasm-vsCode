@@ -122,7 +122,12 @@ Expected structure:
     │   ├── preview.md
     │   └── preview.ts
     ├── scripts/
+    │   ├── build.mjs
     │   └── check.mjs
+    ├── src/
+    │   ├── palette.js
+    │   ├── workbench.js
+    │   └── syntax.js
     └── themes/
         └── Ectoplasma-color-theme.json
 
@@ -132,13 +137,17 @@ The actual project structure may evolve as development progresses.
 
 - Requires Node.js 22+, npm, and VS Code 1.85+.
 - Run `npm ci` to install the locked development dependencies.
-- Open the repository in VS Code and press F5 using **Preview Ectoplasma**.
+- Run `npm run build` to generate the theme once, or `npm run watch` to build
+  on startup and rebuild when source modules change using Node's native watcher.
+- Open the repository in VS Code and press F5 using **Preview Ectoplasma**;
+  its pre-launch task builds the theme first.
   Select **Ectoplasma** in the Extension Development Host's Color Theme picker.
-- Edit `themes/Ectoplasma-color-theme.json` directly; saved changes update
-  live in the development host. No build or watcher is required.
-- Run `npm test` (an alias for `npm run check`) to validate the manifest,
+- Edit `src/palette.js`, `src/workbench.js`, or `src/syntax.js`; with watch mode
+  running, saved changes regenerate the theme and update the host live.
+- Run `npm test` to build and validate the generated theme, manifest,
   configuration JSON, color values, token settings, and declarative boundary.
-- Run `npm run package` to validate and create the ignored `ectoplasma.vsix`.
+- Run `npm run check` for read-only validation, including a stale-output check.
+- Run `npm run package` to rebuild, validate, and create the ignored `ectoplasma.vsix`.
 - Run `npm run install:local` to install that VSIX using the `code` CLI,
   or use **Extensions: Install from VSIX…** in VS Code.
 - There is no runtime extension code or runtime dependency. The only direct
@@ -148,12 +157,13 @@ The actual project structure may evolve as development progresses.
 ### Source of Truth
 
 - `package.json` defines extension metadata and theme registration.
-- `themes/` contains the theme definitions.
-- Theme source files are authoritative for colors and token styling.
-- Generated files and packaged extensions are build artifacts.
-
-If a build system is introduced, clearly separate source files
-from generated output.
+- `src/palette.js` is authoritative for shared color values.
+- `src/workbench.js` maps workbench color keys to the palette.
+- `src/syntax.js` defines TextMate and semantic token rules using the palette.
+- `scripts/build.mjs` combines those native ES modules into the theme JSON.
+- `themes/Ectoplasma-color-theme.json` is tracked generated output. Regenerate
+  it with source changes; never edit it manually.
+- The ignored VSIX is a packaging artifact; source modules are not shipped.
 
 Do not manually edit generated files when source files are available.
 

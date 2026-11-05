@@ -1,0 +1,23 @@
+// Existing foundation colors; final Ectoplasma palette mapping is a later phase.
+export const palette = {
+  editorBackground: '#1F1F1F',
+  editorForeground: '#D4D4D4',
+  panelBackground: '#181818',
+  primaryForeground: '#CCCCCC',
+  panelBorder: '#2B2B2B',
+  activeForeground: '#FFFFFF',
+  mutedForeground: '#9D9D9D',
+  inputBackground: '#313131',
+  widgetBackground: '#202020',
+  quickInputBackground: '#222222',
+  accent: '#0078D4',
+  link: '#4DAAFC',
+  comment: '#6A9955',
+  keyword: '#569CD6',
+  string: '#CE9178',
+  constant: '#B5CEA8',
+  function: '#DCDCAA',
+  type: '#4EC9B0',
+  variable: '#9CDCFE',
+  invalid: '#F44747',
+};

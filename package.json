@@ -2,7 +2,8 @@
   "name": "ectoplasma",
   "displayName": "Ectoplasma",
   "description": "A dark color theme foundation for the Ectoplasma visual identity.",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "type": "module",
   "publisher": "madebyspook",
   "private": true,
   "license": "UNLICENSED",
@@ -26,9 +27,11 @@
     ]
   },
   "scripts": {
-    "check": "node scripts/check.mjs",
-    "test": "npm run check",
-    "vscode:prepublish": "npm run check",
+    "build": "node scripts/build.mjs",
+    "watch": "node --watch scripts/build.mjs",
+    "check": "node scripts/build.mjs --check && node scripts/check.mjs",
+    "test": "npm run build && npm run check",
+    "vscode:prepublish": "npm test",
     "package": "vsce package --no-dependencies --out ectoplasma.vsix",
     "install:local": "code --install-extension ectoplasma.vsix"
   },

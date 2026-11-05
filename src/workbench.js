@@ -1,0 +1,32 @@
+import { palette } from './palette.js';
+
+export const colors = {
+  "editor.background": palette.editorBackground,
+  "editor.foreground": palette.editorForeground,
+  "sideBar.background": palette.panelBackground,
+  "sideBar.foreground": palette.primaryForeground,
+  "activityBar.background": palette.panelBackground,
+  "panel.background": palette.panelBackground,
+  "panel.border": palette.panelBorder,
+  "editorGroupHeader.tabsBackground": palette.panelBackground,
+  "tab.activeBackground": palette.editorBackground,
+  "tab.activeForeground": palette.activeForeground,
+  "tab.inactiveBackground": palette.panelBackground,
+  "tab.inactiveForeground": palette.mutedForeground,
+  "titleBar.activeBackground": palette.panelBackground,
+  "titleBar.inactiveBackground": palette.editorBackground,
+  "statusBar.background": palette.panelBackground,
+  "statusBar.foreground": palette.primaryForeground,
+  "statusBar.noFolderBackground": palette.panelBackground,
+  "statusBar.debuggingBackground": palette.panelBackground,
+  "menu.background": palette.editorBackground,
+  "dropdown.background": palette.inputBackground,
+  "input.background": palette.inputBackground,
+  "editorWidget.background": palette.widgetBackground,
+  "quickInput.background": palette.quickInputBackground,
+  "terminal.background": palette.panelBackground,
+  "focusBorder": palette.accent,
+  "button.background": palette.accent,
+  "button.foreground": palette.activeForeground,
+  "textLink.foreground": palette.link
+};
