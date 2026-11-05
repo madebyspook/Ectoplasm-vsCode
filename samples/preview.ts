@@ -17,5 +17,5 @@ export class Preview {
   }
 }
 
-const preview = new Preview({ name: "Ectoplasma", enabled: true });
+const preview = new Preview({ name: "Ectoplasm", enabled: true });
 console.log(preview.describe(Surface.Editor));

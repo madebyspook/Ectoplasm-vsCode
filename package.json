@@ -1,8 +1,8 @@
 {
-  "name": "ectoplasma",
-  "displayName": "Ectoplasma",
-  "description": "A dark color theme foundation for the Ectoplasma visual identity.",
-  "version": "0.0.2",
+  "name": "ectoplasm",
+  "displayName": "Ectoplasm",
+  "description": "A dark color theme foundation for the Ectoplasm visual identity.",
+  "version": "0.0.3",
   "type": "module",
   "publisher": "madebyspook",
   "private": true,
@@ -12,17 +12,17 @@
     "node": ">=22"
   },
   "categories": ["Themes"],
-  "keywords": ["ectoplasma", "dark", "theme"],
+  "keywords": ["ectoplasm", "dark", "theme"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/madebyspook/Ectoplasma-vsCode.git"
+    "url": "https://github.com/madebyspook/Ectoplasm-vsCode.git"
   },
   "contributes": {
     "themes": [
       {
-        "label": "Ectoplasma",
+        "label": "Ectoplasm",
         "uiTheme": "vs-dark",
-        "path": "./themes/Ectoplasma-color-theme.json"
+        "path": "./themes/Ectoplasm-color-theme.json"
       }
     ]
   },
@@ -32,8 +32,8 @@
     "check": "node scripts/build.mjs --check && node scripts/check.mjs",
     "test": "npm run build && npm run check",
     "vscode:prepublish": "npm test",
-    "package": "vsce package --no-dependencies --out ectoplasma.vsix",
-    "install:local": "code --install-extension ectoplasma.vsix"
+    "package": "vsce package --no-dependencies --out ectoplasm.vsix",
+    "install:local": "code --install-extension ectoplasm.vsix"
   },
   "devDependencies": {
     "@vscode/vsce": "4.1.0"

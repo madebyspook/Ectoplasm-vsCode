@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 const root = new URL('../', import.meta.url);
 const readJson = async (path) => JSON.parse(await readFile(new URL(path, root), 'utf8'));
 const manifest = await readJson('package.json');
-assert.equal(manifest.displayName, 'Ectoplasma');
+assert.equal(manifest.displayName, 'Ectoplasm');
 assert.equal(manifest.contributes.themes.length, 1);
 assert.equal(manifest.main, undefined, 'The theme must remain declarative');
 assert.equal(manifest.browser, undefined, 'The theme must remain declarative');
@@ -12,7 +12,7 @@ assert.equal(manifest.activationEvents, undefined);
 assert.equal(manifest.dependencies, undefined, 'No runtime dependencies are needed');
 
 const contribution = manifest.contributes.themes[0];
-assert.equal(contribution.label, 'Ectoplasma');
+assert.equal(contribution.label, 'Ectoplasm');
 assert.equal(contribution.uiTheme, 'vs-dark');
 const theme = await readJson(contribution.path);
 assert.equal(theme.name, contribution.label);
@@ -47,4 +47,4 @@ for (const [selector, value] of Object.entries(theme.semanticTokenColors)) {
   }
 }
 for (const path of ['.vscode/launch.json', '.vscode/settings.json', '.vscode/tasks.json']) await readJson(path);
-console.log(`Valid Ectoplasma foundation: ${Object.keys(theme.colors).length} workbench colors, ${theme.tokenColors.length} TextMate rules, ${Object.keys(theme.semanticTokenColors).length} semantic rules.`);
+console.log(`Valid Ectoplasm foundation: ${Object.keys(theme.colors).length} workbench colors, ${theme.tokenColors.length} TextMate rules, ${Object.keys(theme.semanticTokenColors).length} semantic rules.`);

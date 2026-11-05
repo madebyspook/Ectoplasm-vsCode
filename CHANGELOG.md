@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.3
+
+- Renamed the VS Code project, extension, theme, generated theme file, and VSIX to Ectoplasm; theme colors and highlighting are unchanged.
+
 ## 0.0.2
 
 - Extracted palette, workbench, and syntax sources into native JavaScript modules without changing theme values.
