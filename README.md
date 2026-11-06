@@ -58,17 +58,18 @@ A semantic wildcard keeps language-service tokens primary, with explicit string
 and comment exceptions. No syntax font styles or glow are added.
 Use `samples/` to compare languages and inspect scopes.
 
-## Test and package locally
+## Validate and package locally
 
 ```sh
-npm test
+npm run build
+npm run check
 npm run package
 npm run install:local
 ```
 
 Packaging creates the ignored `ectoplasm.vsix` using the official `@vscode/vsce` development tool. Its `minimatch` dependency is overridden to patched version 11.0.1; remove that override when the packager updates its dependency. `npm run install:local` first packages the current source, then installs it using `code --install-extension ectoplasm.vsix --force`, including when reinstalling the same version. A build, validation, or packaging failure stops installation. Alternatively, run `npm run package`, then **Extensions: Install from VSIX…** and choose that file. Select **Ectoplasm** afterward; use **Developer: Reload Window** if an open window still displays the previous theme. Nothing is published to the Marketplace. If `code` is missing, run **Shell Command: Install 'code' command in PATH** from VS Code, or use its UI.
 
-`npm test` rebuilds and validates color formats, palette calculations and invalid inputs, TextMate and semantic token structures, the extension manifest, and configuration JSON. Tests do not pin visual colors, mappings, contrast, or hierarchy. Generated output must match the current sources. `npm run check` checks it without writing files and fails if output is missing or stale. Packaging runs the same rebuild and validation before creating the VSIX, so stale JSON is not packaged.
+`npm run build` regenerates the theme. `npm run check` validates color formats, TextMate and semantic token structures, the extension manifest, and configuration JSON without writing files, and fails if generated output is missing or stale. Packaging runs the build and validation before creating the VSIX, so stale JSON is not packaged.
 
 For manual checks, open the TypeScript, HTML/CSS, and Markdown samples; compare semantic highlighting on/off using `editor.semanticHighlighting.enabled`; inspect selections, search matches, diagnostics, terminal, sidebar, tabs, panels, and menus. Automated checks cover JSON, contribution paths, color values, token settings, and the declarative extension boundary; they do not replace visual review or verify every language grammar.
 

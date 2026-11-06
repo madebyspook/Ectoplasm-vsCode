@@ -144,9 +144,9 @@ The actual project structure may evolve as development progresses.
   Select **Ectoplasm** in the Extension Development Host's Color Theme picker.
 - Edit `src/palette.js`, `src/workbench.js`, or `src/syntax.js`; with watch mode
   running, saved changes regenerate the theme and update the host live.
-- Run `npm test` to build and validate the generated theme, manifest,
-  configuration JSON, color values, token settings, and declarative boundary.
-- Run `npm run check` for read-only validation, including a stale-output check.
+- Run `npm run check` for read-only validation of the generated theme, manifest,
+  configuration JSON, color values, token settings, and declarative boundary,
+  including a stale-output check. Run `npm run build` first after source changes.
 - Run `npm run package` to rebuild, validate, and create the ignored `ectoplasm.vsix`.
 - Run `npm run install:local` to install that VSIX using the `code` CLI,
   or use **Extensions: Install from VSIX…** in VS Code.

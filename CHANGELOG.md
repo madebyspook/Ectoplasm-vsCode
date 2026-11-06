@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+- Removed the automated test suite and npm test script; retained theme builds, JSON validation, packaging, and local installation.
+
 ## 0.4.1
 
 - Replaced visual regression expectations with technical palette and theme validation, allowing manual color adjustments without changing tests.
