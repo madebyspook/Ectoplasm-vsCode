@@ -1,0 +1,11 @@
+/* Selectors, properties, values, functions, and punctuation. */
+:root { --accent: #3c86ff; }
+.preview[data-theme="dark"] {
+  color: var(--accent);
+  padding: 1rem;
+  font-family: "Example", sans-serif;
+  background: rgba(20, 25, 35, 0.9);
+}
+@media (min-width: 40rem) {
+  .preview:hover { opacity: 0.8; }
+}

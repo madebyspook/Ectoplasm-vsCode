@@ -19,3 +19,9 @@ export class Preview {
 
 const preview = new Preview({ name: "Ectoplasm", enabled: true });
 console.log(preview.describe(Surface.Editor));
+
+/** @deprecated Use Preview.describe instead. */
+function legacyLabel(value: string): string {
+  return value;
+}
+console.log(legacyLabel("Ectoplasm"));

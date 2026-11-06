@@ -2,7 +2,7 @@
 
 A lightweight VS Code dark theme foundation in the **Ectoplasm-vsCode** project. Both the extension display name and the theme picker label are **Ectoplasm**.
 
-The current colors are provisional VS Code Dark Modern/Dark+ values, with a small editable set of workbench and syntax rules. This is not the final Ectoplasm palette. The next phase will map the existing Discord and Notion themes to blue-hued surfaces, readable text, and restrained accents. Existing projects are not changed.
+The workbench uses the configurable Ectoplasm design tokens for surfaces, text, borders, and interactions. Syntax defaults to primary text, with green strings, muted comments, and primary-colored string punctuation. Existing Discord and Notion projects are not changed.
 
 ## Develop and preview
 
@@ -25,16 +25,25 @@ code .
 
 ## Ectoplasm design tokens
 
-`src/palette.js` has two layers: `designTokens` contains the derived Ectoplasm
-colors; the existing `palette` export supplies the provisional VS Code mappings.
-The design tokens are available for future mapping and do not change the current theme.
+`src/palette.js` centralizes the palettes: `designTokens` contains the Ectoplasm
+colors used by `src/workbench.js`, while `syntaxColors` supplies accent-derived
+syntax colors. The current theme uses only its string and comment colors; other
+syntax categories use `designTokens.textPrimary`.
+`createSyntaxColors(createDesignTokens({ accent: '#FF6633' }))` previews an
+independent syntax palette without changing configuration.
+
+Primary surfaces use `bgPrimary`, sidebar and panels use `bgSecondary`, and inputs, menus, and widgets use `bgTertiary`.
+Hover and selection overlays use `bgInteract`, separators use `border`, and
+active indicators use `accent`. Interface text uses the primary, secondary,
+muted, and neon tokens according to its state. Terminal ANSI and diagnostic
+colors retain VS Code defaults.
 
 Edit `paletteConfig` to set `accent` (default `#3C86FF`, in `#RRGGBB` format),
-`bgBrightness` (`0.2`), and `bgSaturation` (`0.008`). Brightness and saturation
+`bgBrightness` (`0.075`), and `bgSaturation` (`0.1`). Brightness and saturation
 are HSL values from 0 to 1. All three surfaces use the accent hue, with
-brightness scaled by 1 / 1.1 / 1.3 and saturation by 1 / 1.75 / 2.5;
+brightness scaled by 1 / 1.25 / 1.5 and saturation by 1 / 2 / 2.5;
 scaled values are clamped to 1. These approximate the Notion relationships.
-At the default low saturation, 8-bit rounding can hide hue changes on surfaces.
+At very low saturation, 8-bit rounding can hide hue changes on surfaces.
 Text uses nested RGB mixes: the first weight belongs to the accent, and the
 second to the intermediate color. Each mix rounds to the nearest RGB byte.
 Interactive backgrounds and borders add 10% and 25% alpha, rounded to hex bytes.
@@ -42,6 +51,12 @@ Interactive backgrounds and borders add 10% and 25% alpha, rounded to hex bytes.
 `createDesignTokens({ accent: '#FF6633' })` derives an independent palette with
 partial overrides. The small RGB, HSL, and alpha helpers live in `palette.js`;
 there are no color dependencies or CSS conversion machinery.
+
+Comments reuse `designTokens.textMuted`; strings use the accent-derived green.
+All other syntax and string punctuation use `designTokens.textPrimary`.
+A semantic wildcard keeps language-service tokens primary, with explicit string
+and comment exceptions. No syntax font styles or glow are added.
+Use `samples/` to compare languages and inspect scopes.
 
 ## Test and package locally
 
@@ -51,11 +66,11 @@ npm run package
 npm run install:local
 ```
 
-Packaging creates the ignored `ectoplasm.vsix` using the official `@vscode/vsce` development tool. Its `minimatch` dependency is overridden to patched version 11.0.1; remove that override when the packager updates its dependency. Installation uses `code --install-extension`; alternatively, run **Extensions: Install from VSIX…** and choose that file. Select **Ectoplasm** afterward. Nothing is published to the Marketplace. If `code` is missing, run **Shell Command: Install 'code' command in PATH** from VS Code, or use its UI.
+Packaging creates the ignored `ectoplasm.vsix` using the official `@vscode/vsce` development tool. Its `minimatch` dependency is overridden to patched version 11.0.1; remove that override when the packager updates its dependency. `npm run install:local` first packages the current source, then installs it using `code --install-extension ectoplasm.vsix --force`, including when reinstalling the same version. A build, validation, or packaging failure stops installation. Alternatively, run `npm run package`, then **Extensions: Install from VSIX…** and choose that file. Select **Ectoplasm** afterward; use **Developer: Reload Window** if an open window still displays the previous theme. Nothing is published to the Marketplace. If `code` is missing, run **Shell Command: Install 'code' command in PATH** from VS Code, or use its UI.
 
-`npm test` rebuilds and validates the generated theme, runs focused design-token tests, and checks the original theme output remains byte-identical. `npm run check` checks it without writing files and fails if output is missing or stale. Packaging runs the same rebuild and validation before creating the VSIX, so stale JSON is not packaged.
+`npm test` rebuilds and validates the generated theme, runs focused design-token tests, and checks syntax palette derivation, numeric contrast, token definitions, and the intended workbench baseline. `npm run check` checks it without writing files and fails if output is missing or stale. Packaging runs the same rebuild and validation before creating the VSIX, so stale JSON is not packaged.
 
-For manual checks, open the TypeScript, HTML/CSS, and Markdown samples; compare semantic highlighting on/off using `editor.semanticHighlighting.enabled`; inspect selections, search matches, diagnostics, terminal, sidebar, tabs, panels, and menus. Automated checks cover JSON, contribution paths, color values, token settings, and the declarative extension boundary; they do not verify visual contrast or every language grammar.
+For manual checks, open the TypeScript, HTML/CSS, and Markdown samples; compare semantic highlighting on/off using `editor.semanticHighlighting.enabled`; inspect selections, search matches, diagnostics, terminal, sidebar, tabs, panels, and menus. Automated checks cover JSON, contribution paths, color values, token settings, and the declarative extension boundary; they do not replace visual review or verify every language grammar.
 
 ## Project files
 
@@ -64,7 +79,7 @@ For manual checks, open the TypeScript, HTML/CSS, and Markdown samples; compare 
 - `scripts/build.mjs` — deterministic theme generation and stale-output check; `npm run watch` uses Node's built-in watch mode.
 - `themes/Ectoplasm-color-theme.json` — generated theme consumed by VS Code.
 - `.vscode/` — preview launch configuration and validation task.
-- `samples/` — local visual checks; `scripts/check.mjs` — dependency-free validation.
+- `samples/` — TypeScript, JavaScript, JSON, CSS, HTML, Python, and Markdown checks; `scripts/check.mjs` — dependency-free validation.
 - `docs/research.md` — reference findings and optional glow recommendation.
 - `.vscodeignore` — packages only the manifest, theme, README, changelog, and license.
 

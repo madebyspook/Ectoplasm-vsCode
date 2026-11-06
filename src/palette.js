@@ -1,8 +1,8 @@
-// Primary configuration for design tokens; VS Code mappings remain unchanged below.
+// Primary configuration for design tokens used by the workbench.
 export const paletteConfig = Object.freeze({
   accent: '#3C86FF',
-  bgBrightness: 0.2,
-  bgSaturation: 0.008,
+  bgBrightness: 0.075,
+  bgSaturation: 0.1,
 });
 
 const clamp = (value) => Math.min(1, Math.max(0, value));
@@ -22,8 +22,8 @@ function mixHex(first, second, weight) {
   return toHex(toRgb(first).map((channel, i) => channel * weight + other[i] * (1 - weight)));
 }
 
-// Set either HSL lightness or saturation (0–1), preserving the accent hue.
-function adjustHsl(hex, { lightness, saturation }) {
+// Adjust HSL lightness/saturation (0–1) and optionally shift hue in degrees.
+function adjustHsl(hex, { lightness, saturation, hueShift = 0 }) {
   const [r, g, b] = toRgb(hex).map((channel) => channel / 255);
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
@@ -35,6 +35,7 @@ function adjustHsl(hex, { lightness, saturation }) {
     else if (max === g) hue = (b - r) / delta + 2;
     else hue = (r - g) / delta + 4;
   }
+  if (hueShift !== 0) hue = ((hue + hueShift / 60) % 6 + 6) % 6;
   const l = clamp(lightness ?? originalLightness);
   const s = clamp(saturation ?? (delta === 0 ? 0 : delta / (1 - Math.abs(2 * originalLightness - 1))));
   const chroma = (1 - Math.abs(2 * l - 1)) * s;
@@ -43,59 +44,49 @@ function adjustHsl(hex, { lightness, saturation }) {
   return toHex(sectors[Math.floor(hue)].map((channel) => (channel + l - chroma / 2) * 255));
 }
 
-function withAlpha(hex, alpha) {
-  return `${hex}${byte(clamp(alpha) * 255)}`;
-}
-
 export function createDesignTokens(overrides = {}) {
   const { accent, bgBrightness, bgSaturation } = { ...paletteConfig, ...overrides };
   if (![bgBrightness, bgSaturation].every((value) => Number.isFinite(value) && value >= 0 && value <= 1)) {
     throw new RangeError('Background brightness and saturation must be between 0 and 1');
   }
   const color = toHex(toRgb(accent));
-  const surface = (brightnessScale, saturationScale) => adjustHsl(color, {
-    lightness: bgBrightness * brightnessScale,
-    saturation: bgSaturation * saturationScale,
-  });
-  const text = (accentWeight, intermediateWeight) =>
-    mixHex(mixHex(color, '#FFFFFF', accentWeight), '#000000', intermediateWeight);
 
   return Object.freeze({
     accent: color,
-    bgPrimary: surface(1, 1),
-    bgSecondary: surface(1.1, 1.75),
-    bgTertiary: surface(1.3, 2.5),
-    bgInteract: withAlpha(color, 0.1),
-    border: withAlpha(color, 0.25),
-    textNeon: text(0.15, 0.95),
-    textPrimary: text(0.3, 0.95),
-    textSecondary: text(0.4, 0.6),
-    textMuted: text(0.5, 0.5),
+    bgPrimary:     adjustHsl(color, {lightness: bgBrightness * 1, saturation: bgSaturation * 1}),
+    bgSecondary:   adjustHsl(color, {lightness: bgBrightness * 1.25, saturation: bgSaturation * 2}),
+    bgTertiary:    adjustHsl(color, {lightness: bgBrightness * 1.5, saturation: bgSaturation * 2.5}),
+    bgInteract:    `${color}${byte(clamp(0.1) * 255)}`,
+    border:        `${color}${byte(clamp(0.25) * 255)}`,
+    textNeon:      mixHex(mixHex(color, '#FFFFFF', 0.15), '#000000', 0.95),
+    textPrimary:   mixHex(mixHex(color, '#FFFFFF', 0.3), '#000000', 0.95),
+    textSecondary: mixHex(mixHex(color, '#FFFFFF', 0.4), '#000000', 0.6),
+    textMuted:     mixHex(mixHex(color, '#FFFFFF', 0.5), '#000000', 0.5),
   });
 }
 
 export const designTokens = createDesignTokens();
 
-// Existing foundation colors; final Ectoplasm palette mapping is a later phase.
-export const palette = {
-  editorBackground: '#1F1F1F',
-  editorForeground: '#D4D4D4',
-  panelBackground: '#181818',
-  primaryForeground: '#CCCCCC',
-  panelBorder: '#2B2B2B',
-  activeForeground: '#FFFFFF',
-  mutedForeground: '#9D9D9D',
-  inputBackground: '#313131',
-  widgetBackground: '#202020',
-  quickInputBackground: '#222222',
-  accent: '#0078D4',
-  link: '#4DAAFC',
-  comment: '#6A9955',
-  keyword: '#569CD6',
-  string: '#CE9178',
-  constant: '#B5CEA8',
-  function: '#DCDCAA',
-  type: '#4EC9B0',
-  variable: '#9CDCFE',
-  invalid: '#F44747',
-};
+// Syntax colors share the accent and text tokens without changing workbench tokens.
+export function createSyntaxColors(tokens = designTokens) {
+  const shifted = (hueShift, saturation, lightness) =>
+    adjustHsl(tokens.accent, { hueShift, saturation, lightness });
+
+  return Object.freeze({
+    comment:   tokens.textMuted,           // Muted blue-grey
+    keyword:   shifted(10, 0.65, 0.75),    // Light periwinkle blue
+    function:  shifted(0, 0.95, 0.72),     // Bright saturated blue
+    variable:  shifted(0, 0.65, 0.86),     // Very light blue
+    property:  shifted(-5, 0.75, 0.72),    // Bright sky blue
+    type:      shifted(25, 0.85, 0.85),    // Light lavender
+    class:     shifted(30, 0.65, 0.72),    // Medium lavender-purple
+    string:    shifted(-100, 0.45, 0.68),  // Muted turquoise-green
+    number:    shifted(-30, 0.75, 0.72),   // Light cyan-blue
+    constant:  shifted(-30, 0.75, 0.72),   // Light cyan-blue
+    operator:  shifted(0, 0.35, 0.72),     // Muted grey-blue
+    parameter: shifted(0, 0.65, 0.86),     // Very light blue
+    invalid:   shifted(140, 0.65, 0.72),   // Muted warm red
+  });
+}
+
+export const syntaxColors = createSyntaxColors();

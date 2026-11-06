@@ -2,7 +2,7 @@
   "name": "ectoplasm",
   "displayName": "Ectoplasm",
   "description": "A dark color theme foundation for the Ectoplasm visual identity.",
-  "version": "0.1.0",
+  "version": "0.3.1",
   "type": "module",
   "publisher": "madebyspook",
   "private": true,
@@ -33,7 +33,7 @@
     "test": "npm run build && npm run check",
     "vscode:prepublish": "npm test",
     "package": "vsce package --no-dependencies --out ectoplasm.vsix",
-    "install:local": "code --install-extension ectoplasm.vsix"
+    "install:local": "npm run package && code --install-extension ectoplasm.vsix --force"
   },
   "devDependencies": {
     "@vscode/vsce": "4.1.0"

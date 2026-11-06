@@ -1,0 +1,7 @@
+{
+  "name": "Ectoplasm",
+  "enabled": true,
+  "count": 3,
+  "options": null,
+  "surfaces": ["editor", "sidebar", "panel"]
+}
