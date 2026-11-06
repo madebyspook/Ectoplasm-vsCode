@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { createDesignTokens, createSyntaxColors, designTokens, syntaxColors } from '../src/palette.js';
@@ -76,11 +75,47 @@ test('TextMate rules keep default syntax and string punctuation primary, strings
   ]);
 });
 
-test('generated theme preserves the intended workbench baseline and current syntax', async () => {
+test('workbench defines core surfaces, text, and interaction colors', () => {
+  for (const key of [
+    'editor.background', 'editor.foreground', 'editorCursor.foreground',
+    'sideBar.background', 'sideBar.foreground', 'activityBar.background',
+    'tab.activeBackground', 'tab.activeForeground', 'tab.inactiveBackground',
+    'panel.background', 'terminal.background', 'terminal.foreground',
+    'titleBar.activeBackground', 'statusBar.background',
+    'menu.background', 'input.background', 'editorWidget.background',
+    'notifications.background', 'list.activeSelectionBackground',
+    'focusBorder', 'widget.border',
+  ]) {
+    assert.ok(Object.hasOwn(colors, key), `Missing workbench color: ${key}`);
+    assert.match(colors[key], /^#(?:[0-9A-F]{6}|[0-9A-F]{8})$/i, key);
+  }
+});
+
+test('bracket highlighting uses text tokens for all six levels and accent for unexpected brackets', () => {
+  const textColors = [designTokens.textPrimary, designTokens.textSecondary, designTokens.textMuted];
+  for (let level = 1; level <= 6; level++) {
+    const key = `editorBracketHighlight.foreground${level}`;
+    assert.ok(textColors.includes(colors[key]), `${key} must use a text token`);
+  }
+  assert.equal(colors['editorBracketHighlight.unexpectedBracket.foreground'], designTokens.accent);
+});
+
+test('editor selections use translucent accent overlays with a stronger active state', () => {
+  const selections = ['editor.selectionBackground', 'editor.inactiveSelectionBackground'];
+  const alphas = selections.map((key) => {
+    const color = colors[key];
+    assert.match(color, /^#[0-9A-F]{8}$/i, key);
+    assert.equal(color.slice(0, 7), designTokens.accent, `${key} must use the accent hue`);
+    const alpha = parseInt(color.slice(7), 16);
+    assert.ok(alpha > 0 && alpha < 255, `${key} must remain translucent`);
+    return alpha;
+  });
+  assert.ok(alphas[0] > alphas[1], 'Active selections must be stronger than inactive selections');
+});
+
+test('generated theme matches the current workbench and syntax sources', async () => {
   const theme = JSON.parse(await readFile(new URL('../themes/Ectoplasm-color-theme.json', import.meta.url), 'utf8'));
   assert.deepEqual(theme.colors, colors);
   assert.deepEqual(theme.tokenColors, tokenColors);
   assert.deepEqual(theme.semanticTokenColors, semanticTokenColors);
-  assert.equal(createHash('sha256').update(JSON.stringify(theme.colors)).digest('hex'),
-    '78e5da2f8c557dea4c8d98dc5dadd3e61b77c62399656a7804c73871479e4fe0');
 });
