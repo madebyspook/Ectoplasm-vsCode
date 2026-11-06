@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0
+
+- Added configurable Ectoplasm design tokens using small, dependency-free HSL, RGB mixing, and alpha helpers in the palette module; existing interface colors and syntax highlighting are unchanged.
+- Added focused design-token and unchanged-theme regression tests to validation and packaging.
+
 ## 0.0.3
 
 - Renamed the VS Code project, extension, theme, generated theme file, and VSIX to Ectoplasm; theme colors and highlighting are unchanged.
