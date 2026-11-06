@@ -2,7 +2,7 @@
   "name": "ectoplasm",
   "displayName": "Ectoplasm",
   "description": "A dark color theme foundation for the Ectoplasm visual identity.",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "type": "module",
   "publisher": "madebyspook",
   "private": true,
@@ -29,7 +29,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "watch": "node --watch scripts/build.mjs",
-    "check": "node scripts/build.mjs --check && node scripts/check.mjs",
+    "check": "node scripts/build.mjs --check && node scripts/check.mjs && node --test tests/*.test.mjs",
     "test": "npm run build && npm run check",
     "vscode:prepublish": "npm test",
     "package": "vsce package --no-dependencies --out ectoplasm.vsix",
