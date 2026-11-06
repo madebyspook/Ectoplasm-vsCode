@@ -37,8 +37,12 @@ for (const rule of theme.tokenColors) {
 }
 assert.ok(Object.keys(theme.semanticTokenColors).length > 0);
 for (const [selector, value] of Object.entries(theme.semanticTokenColors)) {
+  // Allow custom token types/modifiers and optional language selectors.
+  assert.match(selector, /^(?:\*|[\w-]+)(?:\.[\w-]+)*(?::[\w-]+)?$/, `Invalid semantic selector: ${selector}`);
   if (typeof value === 'string') checkColor(value, selector);
   else {
+    assert.ok(value && typeof value === 'object' && !Array.isArray(value));
+    assert.ok(Object.keys(value).length, `Empty semantic settings: ${selector}`);
     for (const [key, setting] of Object.entries(value)) {
       assert.ok(['foreground', 'bold', 'italic', 'underline', 'strikethrough'].includes(key));
       if (key === 'foreground') checkColor(setting, selector);

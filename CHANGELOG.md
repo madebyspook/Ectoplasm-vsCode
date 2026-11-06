@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+- Replaced visual regression expectations with technical palette and theme validation, allowing manual color adjustments without changing tests.
+
 ## 0.3.1
 
 - Fixed local installation to rebuild, validate, and package before force-installing the current VSIX, including same-version reinstalls.
