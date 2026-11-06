@@ -1,111 +1,37 @@
-import { palette } from './palette.js';
+import { designTokens as t, syntaxColors as s } from './palette.js';
 
 export const tokenColors = [
   {
-    "name": "Comments",
-    "scope": [
-      "comment",
-      "punctuation.definition.comment"
+    name: 'Default syntax',
+    scope: [
+      'keyword', 'storage', 'constant', 'variable',
+      'entity', 'support', 'meta', 'punctuation',
+      'keyword.operator',
     ],
-    "settings": {
-      "foreground": palette.comment
-    }
+    settings: { foreground: t.textPrimary },
   },
   {
-    "name": "Keywords and storage",
-    "scope": [
-      "keyword",
-      "storage"
+    name: 'Strings',
+    scope: ['string'],
+    settings: { foreground: s.string },
+  },
+  {
+    name: 'String punctuation',
+    scope: [
+      'punctuation.definition.string',
+      'punctuation.definition.template-expression',
     ],
-    "settings": {
-      "foreground": palette.keyword
-    }
+    settings: { foreground: t.textPrimary },
   },
   {
-    "name": "Strings",
-    "scope": "string",
-    "settings": {
-      "foreground": palette.string
-    }
+    name: 'Comments',
+    scope: ['comment'],
+    settings: { foreground: s.comment },
   },
-  {
-    "name": "Numbers and constants",
-    "scope": [
-      "constant.numeric",
-      "constant.language"
-    ],
-    "settings": {
-      "foreground": palette.constant
-    }
-  },
-  {
-    "name": "Functions",
-    "scope": [
-      "entity.name.function",
-      "support.function"
-    ],
-    "settings": {
-      "foreground": palette.function
-    }
-  },
-  {
-    "name": "Types",
-    "scope": [
-      "entity.name.type",
-      "support.type",
-      "support.class"
-    ],
-    "settings": {
-      "foreground": palette.type
-    }
-  },
-  {
-    "name": "Variables",
-    "scope": [
-      "variable",
-      "entity.other.attribute-name"
-    ],
-    "settings": {
-      "foreground": palette.variable
-    }
-  },
-  {
-    "name": "Tags",
-    "scope": "entity.name.tag",
-    "settings": {
-      "foreground": palette.keyword
-    }
-  },
-  {
-    "name": "Markdown headings",
-    "scope": [
-      "markup.heading",
-      "entity.name.section"
-    ],
-    "settings": {
-      "foreground": palette.keyword,
-      "fontStyle": "bold"
-    }
-  },
-  {
-    "name": "Invalid tokens",
-    "scope": "invalid",
-    "settings": {
-      "foreground": palette.invalid
-    }
-  }
 ];
 
 export const semanticTokenColors = {
-  "type": palette.type,
-  "class": palette.type,
-  "interface": palette.type,
-  "enum": palette.type,
-  "typeParameter": palette.type,
-  "function": palette.function,
-  "method": palette.function,
-  "variable": palette.variable,
-  "parameter": palette.variable,
-  "property": palette.variable,
-  "enumMember": palette.constant
+  '*': t.textPrimary,
+  comment: s.comment,
+  string: s.string,
 };
