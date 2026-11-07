@@ -18,7 +18,7 @@ The theme uses a shared palette to generate workbench and syntax highlighting co
 - `src/workbench.js` — VS Code interface colors.
 - `src/syntax.js` — Syntax highlighting rules.
 - `src/glow.js` — Optional syntax glow.
-- `samples/` — Files for testing syntax highlighting.
+- `samples/` — Files for manually previewing syntax highlighting.
 
 To rebuild automatically during development:
 ```bash
@@ -34,12 +34,14 @@ npm run package
 ```
 
 Generated theme and glow files should not be edited directly.
+`npm run check` validates generated-output freshness, theme JSON syntax, and
+glow/runtime JavaScript syntax. Packaging validates extension metadata through `vsce`.
 
-## Optional Syntax Glow
-Ectoplasm supports optional neon syntax glow on macOS.
+## Optional Glow
+Ectoplasm supports optional neon syntax and editor cursor glow on macOS.
 To enable it, open the Command Palette and run **Ectoplasm: Enable Glow**, then reload VS Code.
 To disable it, run **Ectoplasm: Disable Glow** and reload.
-Glow applies selectively to syntax highlighting without affecting the rest of the interface.
+Glow applies selectively to syntax highlighting and adds a stronger electric-blue halo around the editor cursor, whose foreground uses the near-white `neon` token. Both effects are scoped to Ectoplasm.
 
 **Important:** VS Code does not officially support syntax glow. Enabling it modifies VS Code's workbench files and may trigger an **[Unsupported]** warning. Disable glow before uninstalling the extension. VS Code or extension updates may require enabling glow again.
 

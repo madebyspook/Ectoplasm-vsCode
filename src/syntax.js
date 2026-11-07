@@ -18,7 +18,12 @@ export const tokenColors = [
   {
     name: 'Parameters',
     scope: ['variable.parameter'],
-    settings: { foreground: t.synParameter },
+    settings: { foreground: t.synVariable },
+  },
+  {
+    name: 'Variables',
+    scope: ['variable.other.readwrite', 'variable.other.local'],
+    settings: { foreground: t.synVariable },
   },
   {
     name: 'Constants',
@@ -44,7 +49,7 @@ export const tokenColors = [
       'support.function',
       'meta.function-call.generic.python',
     ],
-    settings: { foreground: t.synGlow },
+    settings: { foreground: t.neon },
   },
   {
     name: 'Strings',
@@ -71,15 +76,15 @@ export const semanticTokenColors = {
   '*': t.textPrimary,
   comment: t.textMuted,
   string: t.synString,
-  variable: t.textPrimary,
-  parameter: t.synParameter,
+  variable: t.synVariable,
+  parameter: t.synVariable,
   property: t.textPrimary,
   enumMember: t.synConstant,
   type: t.synKeyword,
   class: t.synKeyword,
   interface: t.synKeyword,
   typeParameter: t.synKeyword,
-  function: t.synGlow,
-  method: t.synGlow,
+  function: t.neon,
+  method: t.neon,
   number: t.synConstant,
 };
