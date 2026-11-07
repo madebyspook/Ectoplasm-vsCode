@@ -21,9 +21,29 @@ export const tokenColors = [
     settings: { foreground: t.synVariable },
   },
   {
+    name: 'SCSS Color Syntax',
+    scope: ['variable.parameter.url.scss'],
+    settings: { foreground: t.synKeyword },
+  },
+  {
     name: 'Variables',
-    scope: ['variable.other.readwrite', 'variable.other.local'],
+    scope: [
+      'variable.other.readwrite',
+      'variable.other.local',
+      'variable.scss',
+      'variable.sass',
+      'variable.other.scss',
+      'variable.other.sass',
+    ],
     settings: { foreground: t.synVariable },
+  },
+  {
+    name: 'SCSS color function keywords',
+    scope: [
+      'support.function.color.scss',
+      'support.function.color.sass',
+    ],
+    settings: { foreground: t.synKeyword },
   },
   {
     name: 'Constants',

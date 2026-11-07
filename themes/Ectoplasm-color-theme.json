@@ -227,13 +227,36 @@
       }
     },
     {
+      "name": "SCSS Color Syntax",
+      "scope": [
+        "variable.parameter.url.scss"
+      ],
+      "settings": {
+        "foreground": "#4545D9"
+      }
+    },
+    {
       "name": "Variables",
       "scope": [
         "variable.other.readwrite",
-        "variable.other.local"
+        "variable.other.local",
+        "variable.scss",
+        "variable.sass",
+        "variable.other.scss",
+        "variable.other.sass"
       ],
       "settings": {
         "foreground": "#9EC3FF"
+      }
+    },
+    {
+      "name": "SCSS color function keywords",
+      "scope": [
+        "support.function.color.scss",
+        "support.function.color.sass"
+      ],
+      "settings": {
+        "foreground": "#4545D9"
       }
     },
     {
