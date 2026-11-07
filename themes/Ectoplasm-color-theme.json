@@ -129,12 +129,14 @@
     "inputOption.activeBackground": "#3C86FF1A",
     "inputOption.activeBorder": "#3C86FF",
     "inputOption.hoverBackground": "#3C86FF1A",
-    "button.background": "#3C86FF1A",
-    "button.border": "#3C86FF",
-    "button.hoverBackground": "#161B24",
+    "button.background": "#3C86FF",
+    "button.foreground": "#111315",
+    "button.border": "#3C86FF00",
+    "button.hoverBackground": "#5998FF",
     "button.secondaryBackground": "#161B24",
     "button.secondaryForeground": "#A7BAD9",
-    "button.secondaryHoverBackground": "#3C86FF1A",
+    "button.secondaryHoverBackground": "#1E3050",
+    "button.secondaryBorder": "#464646",
     "checkbox.background": "#161B24",
     "checkbox.border": "#3C86FF40",
     "badge.background": "#161B24",
@@ -185,7 +187,11 @@
     "tree.tableOddRowsBackground": "#3C86FF1A",
     "scrollbarSlider.background": "#3C86FF1A",
     "scrollbarSlider.hoverBackground": "#3C86FF40",
-    "scrollbarSlider.activeBackground": "#3C86FF40"
+    "scrollbarSlider.activeBackground": "#3C86FF40",
+    "gitDecoration.modifiedResourceForeground": "#3C86FF",
+    "gitDecoration.untrackedResourceForeground": "#586CF6",
+    "gitDecoration.addedResourceForeground": "#586CF6",
+    "gitDecoration.ignoredResourceForeground": "#4F6280"
   },
   "tokenColors": [
     {

@@ -50,6 +50,7 @@ export function createTokens(overrides = {}) {
     throw new RangeError('Background brightness and saturation must be between 0 and 1');
   }
   const color = toHex(toRgb(accent));
+  const bgTertiary = adjustHsl(color, { lightness: bgBrightness * 1.5, saturation: bgSaturation * 2.5 });
 
   return Object.freeze({
     // Accent
@@ -58,7 +59,7 @@ export function createTokens(overrides = {}) {
     // Backgrounds
     bgPrimary:      adjustHsl(color, {lightness: bgBrightness * 1, saturation: bgSaturation * 1}),
     bgSecondary:    adjustHsl(color, {lightness: bgBrightness * 1.25, saturation: bgSaturation * 2}),
-    bgTertiary:     adjustHsl(color, {lightness: bgBrightness * 1.5, saturation: bgSaturation * 2.5}),
+    bgTertiary,
     bgInteract:     `${color}${byte(clamp(0.1) * 255)}`,
     selectActive:   `${color}4D`,
     selectInactive: `${color}26`,
@@ -66,17 +67,27 @@ export function createTokens(overrides = {}) {
     // UI
     border:         `${color}${byte(clamp(0.25) * 255)}`,
 
+    // Buttons
+    buttonHover: mixHex(color, '#FFFFFF', 0.85),
+    buttonBorder: `${color}00`,
+    buttonSecondaryBorder: adjustHsl(color, { saturation: 0, lightness: bgBrightness + 0.2 }),
+    buttonSecondaryHover: mixHex(color, bgTertiary, 0.2),
+
     // Text
     textPrimary:    mixHex(mixHex(color, '#FFFFFF', 0.3), '#000000', 0.85),
     textSecondary:  mixHex(mixHex(color, '#FFFFFF', 0.4), '#000000', 0.6),
     textMuted:      mixHex(mixHex(color, '#FFFFFF', 0.5), '#000000', 0.5),
 
     // Syntax
-    synParameter:   mixHex(color, '#FFFFFF', 0.65),
-    synGlow:    mixHex(color, '#FFFFFF', 0.45),
-    synKeyword:  adjustHsl(color, { hueShift: 15, saturation: 0.9, lightness: 0.655 }),
-    synConstant: adjustHsl(color, { hueShift: -35, saturation: 0.7, lightness: 0.68 }),
-    synString:   adjustHsl(color, { hueShift: -75, saturation: 0.45, lightness: 0.6 }),
+    synParameter: mixHex(color, '#FFFFFF', 0.65),
+    synGlow:      mixHex(color, '#FFFFFF', 0.45),
+    synKeyword:   adjustHsl(color, { hueShift: 15, saturation: 0.9, lightness: 0.655 }),
+    synConstant:  adjustHsl(color, { hueShift: -35, saturation: 0.7, lightness: 0.68 }),
+    synString:    adjustHsl(color, { hueShift: -75, saturation: 0.45, lightness: 0.6 }),
+
+    // Source control decorations
+    scmModified: color,
+    scmUntracked: adjustHsl(color, { hueShift: 15, saturation: 0.9, lightness: 0.655 }),
   });
 }
 

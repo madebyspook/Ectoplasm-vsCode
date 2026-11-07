@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.5
+
+- Filled primary buttons with the accent color and dark text; brighten hover fills with a 15% white mix.
+- Added neutral secondary button borders and stronger accent-tinted hover fills while retaining native keyboard focus outlines.
+- Colored modified Git resources with the accent, added/untracked resources with a 15-degree accent hue shift, and ignored resources with muted text.
+
 ## 0.7.4
 
 - Renamed syntax color tokens to `synParameter`, `synGlow`, and `synKeyword` without changing colors, highlighting, or glow.

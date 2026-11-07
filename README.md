@@ -36,6 +36,14 @@ active indicators use `accent`. Interface text uses the primary, secondary,
 muted, and neon tokens according to its state. Terminal ANSI and diagnostic
 colors retain VS Code defaults.
 
+Primary buttons use solid accent fills, dark text, and a 15% white mix on hover.
+Secondary buttons retain dark fills with neutral borders and stronger accent-tinted hover fills.
+Native focus outlines use `focusBorder`; VS Code has no button hover-border theme token.
+
+Git decorations use `scmModified` (accent) for modified resources,
+`scmUntracked` (accent hue shifted 15°) for added/untracked resources,
+and `textMuted` for ignored files and folders.
+
 Edit `paletteConfig` to set `accent` (default `#3C86FF`, in `#RRGGBB` format),
 `bgBrightness` (`0.075`), and `bgSaturation` (`0.1`). Brightness and saturation
 are HSL values from 0 to 1. All three surfaces use the accent hue, with
