@@ -16,8 +16,8 @@ The theme shares its visual identity with Ectoplasma for Discord and Notion.
 - Platform: Visual Studio Code
 - Distribution: VS Code extension (VSIX)
 
-The current theme is a provisional dark foundation. The final Ectoplasm
-palette and optional glow are not implemented yet.
+The current theme uses an accent-derived dark palette with optional macOS
+syntax glow. The final visual identity remains under development.
 
 ### Design Goals
 
@@ -145,12 +145,13 @@ The actual project structure may evolve as development progresses.
 - Edit `src/palette.js`, `src/workbench.js`, or `src/syntax.js`; with watch mode
   running, saved changes regenerate the theme and update the host live.
 - Run `npm run check` for read-only validation of the generated theme, manifest,
-  configuration JSON, color values, token settings, and declarative boundary,
+  configuration JSON, color values, token settings, and optional runtime manifest,
   including a stale-output check. Run `npm run build` first after source changes.
 - Run `npm run package` to rebuild, validate, and create the ignored `ectoplasm.vsix`.
 - Run `npm run install:local` to install that VSIX using the `code` CLI,
   or use **Extensions: Install from VSIX…** in VS Code.
-- There is no runtime extension code or runtime dependency. The only direct
+- Optional macOS glow commands live in `runtime/` and use no runtime dependencies.
+  The base theme works independently. The only direct
   development dependency is `@vscode/vsce`, with a patched `minimatch` override.
 - `.vscodeignore` excludes development files, including this file, from the VSIX.
 
@@ -161,6 +162,8 @@ The actual project structure may evolve as development progresses.
 - `src/workbench.js` maps workbench color keys to the palette.
 - `src/syntax.js` defines TextMate and semantic token rules using the palette.
 - `scripts/build.mjs` combines those native ES modules into the theme JSON.
+- `src/glow.js` generates the separate `glow/ectoplasm-glow.js` renderer script
+  from palette-derived shadow colors. `runtime/` handles explicit enable/disable.
 - `themes/Ectoplasm-color-theme.json` is tracked generated output. Regenerate
   it with source changes; never edit it manually.
 - The ignored VSIX is a packaging artifact; source modules are not shipped.

@@ -2,7 +2,7 @@
   "name": "ectoplasm",
   "displayName": "Ectoplasm",
   "description": "A dark color theme foundation for the Ectoplasm visual identity.",
-  "version": "0.6.1",
+  "version": "0.7.4",
   "type": "module",
   "publisher": "madebyspook",
   "private": true,
@@ -13,11 +13,18 @@
   },
   "categories": ["Themes"],
   "keywords": ["ectoplasm", "dark", "theme"],
+  "main": "./runtime/extension.cjs",
+  "extensionKind": ["ui"],
+  "activationEvents": ["onStartupFinished"],
   "repository": {
     "type": "git",
     "url": "https://github.com/madebyspook/Ectoplasm-vsCode.git"
   },
   "contributes": {
+    "commands": [
+      { "command": "ectoplasm.enableGlow", "title": "Ectoplasm: Enable Glow" },
+      { "command": "ectoplasm.disableGlow", "title": "Ectoplasm: Disable Glow" }
+    ],
     "themes": [
       {
         "label": "Ectoplasm",
