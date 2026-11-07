@@ -4,6 +4,18 @@
 
 - Removed the automated test suite and npm test script; retained theme builds, JSON validation, packaging, and local installation.
 
+## 0.6.0
+
+- Simplified syntax to primary text, muted comments, and the existing accent-derived green string contents; retained primary string/interpolation punctuation and removed unused syntax colors.
+
+## 0.5.1
+
+- Fixed readonly variable highlighting and kept standard-library objects primary; aligned TextMate const bindings with semantic variable colors and covered Python call names.
+
+## 0.5.0
+
+- Applied the accent-derived syntax hierarchy to TextMate and semantic categories, with primary-colored fallback syntax, constants, properties, and string punctuation.
+
 ## 0.4.1
 
 - Replaced visual regression expectations with technical palette and theme validation, allowing manual color adjustments without changing tests.

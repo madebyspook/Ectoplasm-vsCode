@@ -26,9 +26,9 @@ code .
 ## Ectoplasm design tokens
 
 `src/palette.js` centralizes the palettes: `designTokens` contains the Ectoplasm
-colors used by `src/workbench.js`, while `syntaxColors` supplies accent-derived
-syntax colors. The current theme uses only its string and comment colors; other
-syntax categories use `designTokens.textPrimary`.
+colors used by `src/workbench.js`, while `syntaxColors` supplies
+the accent-derived string color. Comments use `designTokens.textMuted`; other code
+uses `designTokens.textPrimary`.
 `createSyntaxColors(createDesignTokens({ accent: '#FF6633' }))` previews an
 independent syntax palette without changing configuration.
 
@@ -52,10 +52,16 @@ Interactive backgrounds and borders add 10% and 25% alpha, rounded to hex bytes.
 partial overrides. The small RGB, HSL, and alpha helpers live in `palette.js`;
 there are no color dependencies or CSS conversion machinery.
 
-Comments reuse `designTokens.textMuted`; strings use the accent-derived green.
-All other syntax and string punctuation use `designTokens.textPrimary`.
-A semantic wildcard keeps language-service tokens primary, with explicit string
-and comment exceptions. No syntax font styles or glow are added.
+TextMate and semantic highlighting use primary text for code, muted comments, and
+muted green string contents. String quotation marks and interpolation punctuation
+use primary text where grammars expose separate scopes. Embedded expressions reset
+to primary text. No syntax font styles or glow are added.
+
+Coverage depends on each grammar and semantic provider. A grammar that includes
+quotation marks in the string contents (such as the bundled Python grammar), or a
+semantic provider that includes them in a string token, cannot color those marks
+separately through a theme. Interpolation must also expose an embedded-expression
+or punctuation scope for the primary reset to apply.
 Use `samples/` to compare languages and inspect scopes.
 
 ## Validate and package locally
@@ -71,7 +77,7 @@ Packaging creates the ignored `ectoplasm.vsix` using the official `@vscode/vsce`
 
 `npm run build` regenerates the theme. `npm run check` validates color formats, TextMate and semantic token structures, the extension manifest, and configuration JSON without writing files, and fails if generated output is missing or stale. Packaging runs the build and validation before creating the VSIX, so stale JSON is not packaged.
 
-For manual checks, open the TypeScript, HTML/CSS, and Markdown samples; compare semantic highlighting on/off using `editor.semanticHighlighting.enabled`; inspect selections, search matches, diagnostics, terminal, sidebar, tabs, panels, and menus. Automated checks cover JSON, contribution paths, color values, token settings, and the declarative extension boundary; they do not replace visual review or verify every language grammar.
+For manual checks, open the JavaScript, TypeScript, Python, HTML/CSS, and Markdown samples; compare semantic highlighting on/off using `editor.semanticHighlighting.enabled`; inspect selections, search matches, diagnostics, terminal, sidebar, tabs, panels, and menus. Automated checks cover JSON, contribution paths, color values, token settings, and the declarative extension boundary; they do not replace visual review or verify every language grammar.
 
 ## Project files
 

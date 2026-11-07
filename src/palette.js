@@ -44,7 +44,7 @@ function adjustHsl(hex, { lightness, saturation, hueShift = 0 }) {
   return toHex(sectors[Math.floor(hue)].map((channel) => (channel + l - chroma / 2) * 255));
 }
 
-export function createDesignTokens(overrides = {}) {
+export function createTokens(overrides = {}) {
   const { accent, bgBrightness, bgSaturation } = { ...paletteConfig, ...overrides };
   if (![bgBrightness, bgSaturation].every((value) => Number.isFinite(value) && value >= 0 && value <= 1)) {
     throw new RangeError('Background brightness and saturation must be between 0 and 1');
@@ -52,41 +52,32 @@ export function createDesignTokens(overrides = {}) {
   const color = toHex(toRgb(accent));
 
   return Object.freeze({
+    // Accent
     accent: color,
-    bgPrimary:     adjustHsl(color, {lightness: bgBrightness * 1, saturation: bgSaturation * 1}),
-    bgSecondary:   adjustHsl(color, {lightness: bgBrightness * 1.25, saturation: bgSaturation * 2}),
-    bgTertiary:    adjustHsl(color, {lightness: bgBrightness * 1.5, saturation: bgSaturation * 2.5}),
-    bgInteract:    `${color}${byte(clamp(0.1) * 255)}`,
-    border:        `${color}${byte(clamp(0.25) * 255)}`,
-    textNeon:      mixHex(mixHex(color, '#FFFFFF', 0.15), '#000000', 0.95),
-    textPrimary:   mixHex(mixHex(color, '#FFFFFF', 0.3), '#000000', 0.95),
-    textSecondary: mixHex(mixHex(color, '#FFFFFF', 0.4), '#000000', 0.6),
-    textMuted:     mixHex(mixHex(color, '#FFFFFF', 0.5), '#000000', 0.5),
+    
+    // Backgrounds
+    bgPrimary:      adjustHsl(color, {lightness: bgBrightness * 1, saturation: bgSaturation * 1}),
+    bgSecondary:    adjustHsl(color, {lightness: bgBrightness * 1.25, saturation: bgSaturation * 2}),
+    bgTertiary:     adjustHsl(color, {lightness: bgBrightness * 1.5, saturation: bgSaturation * 2.5}),
+    bgInteract:     `${color}${byte(clamp(0.1) * 255)}`,
+    selectActive:   `${color}4D`,
+    selectInactive: `${color}26`,
+
+    // UI
+    border:         `${color}${byte(clamp(0.25) * 255)}`,
+
+    // Text
+    textPrimary:    mixHex(mixHex(color, '#FFFFFF', 0.3), '#000000', 0.95),
+    textSecondary:  mixHex(mixHex(color, '#FFFFFF', 0.4), '#000000', 0.6),
+    textMuted:      mixHex(mixHex(color, '#FFFFFF', 0.5), '#000000', 0.5),
+
+    // Syntax
+    synAccent:   mixHex(color, '#FFFFFF', 0.55),
+    neonBlue:    color,
+    neonPurple:  adjustHsl(color, { hueShift: 55, saturation: 0.9, lightness: 0.73 }),
+    synConstant: adjustHsl(color, { hueShift: -45, saturation: 0.7, lightness: 0.68 }),
+    synString:   adjustHsl(color, { hueShift: -100, saturation: 0.45, lightness: 0.68 }),
   });
 }
 
-export const designTokens = createDesignTokens();
-
-// Syntax colors share the accent and text tokens without changing workbench tokens.
-export function createSyntaxColors(tokens = designTokens) {
-  const shifted = (hueShift, saturation, lightness) =>
-    adjustHsl(tokens.accent, { hueShift, saturation, lightness });
-
-  return Object.freeze({
-    comment:   tokens.textMuted,           // Muted blue-grey
-    keyword:   shifted(10, 0.65, 0.75),    // Light periwinkle blue
-    function:  shifted(0, 0.95, 0.72),     // Bright saturated blue
-    variable:  shifted(0, 0.65, 0.86),     // Very light blue
-    property:  shifted(-5, 0.75, 0.72),    // Bright sky blue
-    type:      shifted(25, 0.85, 0.85),    // Light lavender
-    class:     shifted(30, 0.65, 0.72),    // Medium lavender-purple
-    string:    shifted(-100, 0.45, 0.68),  // Muted turquoise-green
-    number:    shifted(-30, 0.75, 0.72),   // Light cyan-blue
-    constant:  shifted(-30, 0.75, 0.72),   // Light cyan-blue
-    operator:  shifted(0, 0.35, 0.72),     // Muted grey-blue
-    parameter: shifted(0, 0.65, 0.86),     // Very light blue
-    invalid:   shifted(140, 0.65, 0.72),   // Muted warm red
-  });
-}
-
-export const syntaxColors = createSyntaxColors();
+export const tokens = createTokens();

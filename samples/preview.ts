@@ -6,12 +6,14 @@ interface Theme {
 
 enum Surface { Editor, Sidebar, Panel }
 
+type Label = string;
+
 export class Preview {
   private count = 3;
 
   constructor(public theme: Theme) {}
 
-  describe(surface: Surface): string {
+  describe(surface: Surface): Label {
     const label = this.theme.enabled ? "enabled" : "disabled";
     return `${this.theme.name}: ${label} (${surface}, ${this.count})`;
   }

@@ -1,4 +1,4 @@
-import { designTokens as t } from './palette.js';
+import { tokens as t } from './palette.js';
 
 export const colors = {
   // Shared text, actions, and separators.
@@ -30,16 +30,19 @@ export const colors = {
   'editorLineNumber.activeForeground': t.textNeon,
   'editorCursor.foreground': t.accent,
     // Bracket pair colorization
-  'editorBracketHighlight.foreground1': t.textPrimary,
+  'editorBracketHighlight.foreground1': t.textSecondary,
   'editorBracketHighlight.foreground2': t.textSecondary,
-  'editorBracketHighlight.foreground3': t.textMuted,
-  'editorBracketHighlight.foreground4': t.textPrimary,
+  'editorBracketHighlight.foreground3': t.textSecondary,
+  'editorBracketHighlight.foreground4': t.textSecondary,
   'editorBracketHighlight.foreground5': t.textSecondary,
-  'editorBracketHighlight.foreground6': t.textMuted,
+  'editorBracketHighlight.foreground6': t.textSecondary,
   'editorBracketHighlight.unexpectedBracket.foreground': t.accent,
   'editor.selectionBackground': t.bgInteract,
-  'editor.selectionBackground': `${t.accent}4D`,
-  'editor.inactiveSelectionBackground': `${t.accent}26`,
+  'editor.selectionBackground': t.selectActive,
+  'editor.inactiveSelectionBackground': t.selectInactive,
+  'editor.selectionHighlightBackground': t.selectActive,
+  'editor.wordHighlightBackground': t.selectActive,
+  'editor.wordHighlightStrongBackground': t.selectActive,
   'editor.selectionHighlightBorder': t.border,
   'editor.findMatchBackground': t.bgInteract,
   'editor.findMatchBorder': t.accent,
