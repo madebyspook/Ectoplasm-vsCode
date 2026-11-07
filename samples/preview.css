@@ -1,7 +1,7 @@
 /* Selectors, properties, values, functions, and punctuation. */
-:root { --accent: #3c86ff; }
+:root { --electric: #3c86ff; }
 .preview[data-theme="dark"] {
-  color: var(--accent);
+  color: var(--electric);
   padding: 1rem;
   font-family: "Example", sans-serif;
   background: rgba(20, 25, 35, 0.9);

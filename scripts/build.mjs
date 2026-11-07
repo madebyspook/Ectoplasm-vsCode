@@ -26,6 +26,7 @@ for (const [path, content] of outputs) {
       if (error.code === 'ENOENT') return null;
       throw error;
     });
+    if (current !== null && path.endsWith('.json')) JSON.parse(current);
     if (current !== content) {
       console.error(`Generated ${path} is missing or outdated. Run npm run build.`);
       process.exitCode = 1;

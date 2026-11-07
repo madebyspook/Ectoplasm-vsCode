@@ -1,6 +1,9 @@
 // Primary configuration for design tokens used by the workbench.
 export const paletteConfig = Object.freeze({
-  accent: '#3C86FF',
+  electric: '#3C86FF',
+  cosmic: '#4545D9',
+  ice: '#00d9f5',
+  plasma: '#F044C8',
   bgBrightness: 0.075,
   bgSaturation: 0.1,
 });
@@ -45,16 +48,17 @@ function adjustHsl(hex, { lightness, saturation, hueShift = 0 }) {
 }
 
 export function createTokens(overrides = {}) {
-  const { accent, bgBrightness, bgSaturation } = { ...paletteConfig, ...overrides };
+  const { electric, cosmic, ice, plasma, bgBrightness, bgSaturation } = {...paletteConfig, ...overrides, };
   if (![bgBrightness, bgSaturation].every((value) => Number.isFinite(value) && value >= 0 && value <= 1)) {
     throw new RangeError('Background brightness and saturation must be between 0 and 1');
   }
-  const color = toHex(toRgb(accent));
+  const color = toHex(toRgb(electric));
   const bgTertiary = adjustHsl(color, { lightness: bgBrightness * 1.5, saturation: bgSaturation * 2.5 });
 
   return Object.freeze({
-    // Accent
-    accent: color,
+    // electric
+    electric: color,
+    neon: adjustHsl(color, { hueShift: 0, saturation: 1, lightness: 0.94 }),
 
     // Backgrounds
     bgPrimary:      adjustHsl(color, {lightness: bgBrightness * 1, saturation: bgSaturation * 1}),
@@ -79,11 +83,13 @@ export function createTokens(overrides = {}) {
     textMuted:      mixHex(mixHex(color, '#FFFFFF', 0.5), '#000000', 0.5),
 
     // Syntax
-    synParameter: mixHex(color, '#FFFFFF', 0.65),
+    // synVariable: mixHex(color, '#FFFFFF', 0.75),
+    synVariable: mixHex(color, '#FFFFFF', 0.5),
     synGlow:      mixHex(color, '#FFFFFF', 0.45),
-    synKeyword:   adjustHsl(color, { hueShift: 15, saturation: 0.9, lightness: 0.655 }),
-    synConstant:  adjustHsl(color, { hueShift: -35, saturation: 0.7, lightness: 0.68 }),
-    synString:    adjustHsl(color, { hueShift: -75, saturation: 0.45, lightness: 0.6 }),
+    synKeyword:   cosmic,
+    synConstant:  plasma,
+    synString:    ice,
+    // synString:    adjustHsl(color, { hueShift: -75, saturation: 0.45, lightness: 0.6 }),
 
     // Source control decorations
     scmModified: color,
@@ -96,16 +102,16 @@ export const tokens = createTokens();
 // Shadow hues follow the syntax palette; weights approximate SynthWave's dark
 // outlines and muted green/pink halos without importing its foreground colors.
 export function createGlowColors(palette = tokens) {
-  const glow = (name, outline, halo = 1, outer = halo) => ({
+  const glow = (name, outline, halo = 1, outer = halo, glowColor = name) => ({
     foreground: palette[name],
-    outline: mixHex(palette[name], '#000000', outline),
-    halo: mixHex(palette[name], '#000000', halo),
-    outer: mixHex(palette[name], '#000000', outer),
+    outline: mixHex(palette[glowColor], '#000000', outline),
+    halo: mixHex(palette[glowColor], '#000000', halo),
+    outer: mixHex(palette[glowColor], '#000000', outer),
   });
   return {
-    synGlow: glow('synGlow', 0.09),
+    synGlow: glow('neon', 0.09, 1, 1, 'electric'),
     synKeyword: { ...glow('synKeyword', 0.06, 0.8), highlight: '#FFFFFF33' },
     synConstant: glow('synConstant', 0.22),
-    synParameter: glow('synParameter', 0),
+    synVariable: glow('synVariable', 0),
   };
 }

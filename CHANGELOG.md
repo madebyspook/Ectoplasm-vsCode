@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.9.0
+
+- Added electric, cosmic, ice, and plasma palette configuration for blue interface accents, purple types, cyan strings, and pink constants.
+- Colored variables and parameters light blue and functions, methods, and the cursor near-white; strengthened function and keyword glow.
+
+## 0.8.1
+
+- Removed automated design assertions and renderer mocks from the validation command.
+- Retained generated-output freshness, JSON/JavaScript syntax validation, packaging, and local installation.
+
+## 0.8.0
+
+- Added optional editor cursor glow with four accent-derived shadow layers, using the existing glow lifecycle and theme scope.
+- Fixed the `neon` palette token name so the editor cursor foreground resolves correctly.
+
 ## 0.7.5
 
 - Filled primary buttons with the accent color and dark text; brighten hover fills with a 15% white mix.

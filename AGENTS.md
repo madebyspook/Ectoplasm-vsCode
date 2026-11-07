@@ -122,8 +122,7 @@ Expected structure:
     │   ├── preview.md
     │   └── preview.ts
     ├── scripts/
-    │   ├── build.mjs
-    │   └── check.mjs
+    │   └── build.mjs
     ├── src/
     │   ├── palette.js
     │   ├── workbench.js
@@ -144,9 +143,9 @@ The actual project structure may evolve as development progresses.
   Select **Ectoplasm** in the Extension Development Host's Color Theme picker.
 - Edit `src/palette.js`, `src/workbench.js`, or `src/syntax.js`; with watch mode
   running, saved changes regenerate the theme and update the host live.
-- Run `npm run check` for read-only validation of the generated theme, manifest,
-  configuration JSON, color values, token settings, and optional runtime manifest,
-  including a stale-output check. Run `npm run build` first after source changes.
+- Run `npm run check` for read-only generated-output freshness, theme JSON syntax,
+  and glow/runtime JavaScript syntax validation. Run `npm run build` first after
+  source changes. Packaging validates extension metadata through `vsce`.
 - Run `npm run package` to rebuild, validate, and create the ignored `ectoplasm.vsix`.
 - Run `npm run install:local` to install that VSIX using the `code` CLI,
   or use **Extensions: Install from VSIX…** in VS Code.

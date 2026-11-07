@@ -26,7 +26,7 @@
     "editorGroupHeader.noTabsBackground": "#13171D",
     "editorGutter.background": "#111315",
     "editorLineNumber.foreground": "#4F6280",
-    "editorCursor.foreground": "#3C86FF",
+    "editorCursor.foreground": "#E0ECFF",
     "editorBracketHighlight.foreground1": "#6A7C99",
     "editorBracketHighlight.foreground2": "#6A7C99",
     "editorBracketHighlight.foreground3": "#6A7C99",
@@ -223,7 +223,17 @@
         "variable.parameter"
       ],
       "settings": {
-        "foreground": "#80B0FF"
+        "foreground": "#9EC3FF"
+      }
+    },
+    {
+      "name": "Variables",
+      "scope": [
+        "variable.other.readwrite",
+        "variable.other.local"
+      ],
+      "settings": {
+        "foreground": "#9EC3FF"
       }
     },
     {
@@ -234,7 +244,7 @@
         "constant.language"
       ],
       "settings": {
-        "foreground": "#74E2E7"
+        "foreground": "#F044C8"
       }
     },
     {
@@ -247,7 +257,7 @@
         "support.type"
       ],
       "settings": {
-        "foreground": "#586CF6"
+        "foreground": "#4545D9"
       }
     },
     {
@@ -259,7 +269,7 @@
         "meta.function-call.generic.python"
       ],
       "settings": {
-        "foreground": "#A7C9FF"
+        "foreground": "#E0ECFF"
       }
     },
     {
@@ -268,7 +278,7 @@
         "string"
       ],
       "settings": {
-        "foreground": "#6BC78D"
+        "foreground": "#00d9f5"
       }
     },
     {
@@ -296,17 +306,17 @@
   "semanticTokenColors": {
     "*": "#A7BAD9",
     "comment": "#4F6280",
-    "string": "#6BC78D",
-    "variable": "#A7BAD9",
-    "parameter": "#80B0FF",
+    "string": "#00d9f5",
+    "variable": "#9EC3FF",
+    "parameter": "#9EC3FF",
     "property": "#A7BAD9",
-    "enumMember": "#74E2E7",
-    "type": "#586CF6",
-    "class": "#586CF6",
-    "interface": "#586CF6",
-    "typeParameter": "#586CF6",
-    "function": "#A7C9FF",
-    "method": "#A7C9FF",
-    "number": "#74E2E7"
+    "enumMember": "#F044C8",
+    "type": "#4545D9",
+    "class": "#4545D9",
+    "interface": "#4545D9",
+    "typeParameter": "#4545D9",
+    "function": "#E0ECFF",
+    "method": "#E0ECFF",
+    "number": "#F044C8"
   }
 }
