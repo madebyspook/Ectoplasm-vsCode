@@ -5,3 +5,7 @@
 !LICENSE
 !themes/
 !themes/*.json
+!runtime/
+!runtime/*.cjs
+!glow/
+!glow/*.js

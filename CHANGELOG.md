@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.7.4
+
+- Renamed syntax color tokens to `synParameter`, `synGlow`, and `synKeyword` without changing colors, highlighting, or glow.
+
+## 0.7.3
+
+- Applied the finalized blue and purple glow radii and opacity values using palette-derived colors; removed strings from glow color generation.
+
+## 0.7.2
+
+- Strengthened blue and purple syntax glow with denser, wider shadow layers; matched accent glow to constant strength and removed string glow without changing syntax colors.
+
+## 0.7.1
+
+- Fixed syntax glow selectors to match nested token spans and retain the fix when highlighting regenerates the CSS.
+- Rebind glow observers after workbench/token stylesheet replacement and restore a removed glow style during theme refreshes.
+
+## 0.7.0
+
+- Added optional macOS syntax glow with SynthWave '84 shadow layers, generated from Ectoplasm's existing palette without changing syntax foregrounds or workbench styling.
+- Added Enable Glow and Disable Glow commands, explicit installation-patch consent, reversible marked injection, and update detection without automatic reinstallation.
+
 ## 0.6.1
 
 - Removed the automated test suite and npm test script; retained theme builds, JSON validation, packaging, and local installation.

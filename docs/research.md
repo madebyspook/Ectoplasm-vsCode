@@ -24,20 +24,37 @@ Sources:
 
 Both use unsupported workbench modification. Code Glow's fixed file path and token classes, and SynthWave's DOM/style assumptions, create maintenance risks when VS Code changes internals. The same installation-file integrity concern applies to either patching approach; that is an inference from their write operations, not a tested Code Glow warning. Commands registered through the official API do not make the underlying injection supported.
 
-## Recommendation
+## Ectoplasm adaptation (7 November 2026)
 
-Keep the distributed Ectoplasm theme declarative and fully functional without glow. Supported workbench colors, TextMate styles, and semantic styles offer foreground colors and limited text formatting, with no supported token text-shadow/glow property. Brighter accents can suggest luminosity but cannot produce actual halo effects. See Microsoft's [color theme guide](https://code.visualstudio.com/api/extension-guides/color-theme), [semantic styling rules](https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide#theming), and [theme color reference](https://code.visualstudio.com/api/references/theme-color).
+Optional glow is now integrated. Its implementation references the supplied
+`theme_template.js`, `extension.js`, `synthwave84.css`, and theme JSON. The named
+`editor_chrome.css` was not supplied; the combined CSS includes chrome styling,
+which is deliberately excluded from Ectoplasm's syntax-only implementation.
+This architecture supersedes the original recommendation to defer glow to a companion.
 
-If actual glow is later approved, isolate it in a separate experimental companion project/package, disabled by default and absent from this VSIX. First agree on a user-controlled loading mechanism; do not add an installation patcher to the theme. Scope any experiment to the Ectoplasm editor and a few approved syntax categories, preserve the underlying foreground colors, and provide explicit enable/disable and removal steps. Avoid hardcoded numeric token classes; discovering runtime color rules is still fragile and can affect unrelated tokens that share a color.
+Supported theme and decoration APIs do not offer a syntax `text-shadow` property.
+Injecting arbitrary declarations through a decoration's `textDecoration` string
+would also rely on unsupported behavior and would require reconstructing token
+ranges. The implementation therefore isolates the unsupported renderer/patcher
+from the standalone theme JSON. It preserves foregrounds, discovers token classes
+by palette colors, adapts SynthWave's layered shadows with finalized radii and alpha, and
+adds no chrome rules. Halo hues are derived from Ectoplasm, rather than copying
+SynthWave's pink/cyan/yellow colors. See Microsoft's [color theme API](https://code.visualstudio.com/api/extension-guides/color-theme)
+and [decoration API](https://code.visualstudio.com/api/references/vscode-api#ThemableDecorationRenderOptions).
 
-No current approach examined provides actual editor text glow through supported theme APIs. A companion depending on custom CSS still has these limitations:
+`src/glow.js` builds a generated renderer; `runtime/extension.cjs` contributes
+explicit macOS commands with consent and reload prompts. `runtime/workbench.cjs`
+adds/removes exact owned markers, rejects foreign script collisions, serializes
+operations across windows, and never restores stale backups or rewrites checksums.
+Updates are detected without automatic patching. Disable before uninstalling;
+the patch outlives extension removal. Matching colors cannot distinguish tokens
+that share a foreground. Build validation rejects neutral/glow collisions.
 
-- Workbench CSS/scripts execute in a privileged renderer context and must be reviewed as code; this is not a sandboxed webview effect.
-- Installation patching can trigger integrity warnings and require write permissions. Do not suppress checks, rewrite checksums, or recommend elevation as the normal workflow.
-- DOM/style generation and application updates can break selectors or erase patches; desktop, web, remote, Stable, and Insiders behavior must be assessed separately.
-- Glow needs readability and performance checks at different zoom levels, with semantic highlighting both on and off, and must cleanly disappear when disabled or another theme is selected.
-
-This phase implements no injector, patch command, custom CSS, glow toggle, or runtime extension code.
+The `^1.85.0` engine range is preserved. Internal DOM, token style rules, and
+workbench HTML paths have no compatibility guarantee. Known layouts are resolved
+at command time; unknown/altered layouts fail without broad replacement. Actual
+appearance must be reviewed in VS Code at representative zoom/font settings.
+[Microsoft documents the unsupported installation warning](https://code.visualstudio.com/docs/supporting/faq#_installation-appears-to-be-corrupt-unsupported).
 
 ## Next design phase
 
@@ -45,4 +62,4 @@ Read-only inspection of the local Discord `src/abstracts/_configuration.scss` an
 
 The starter deliberately uses a limited set of familiar VS Code Dark Modern/Dark+ colors instead of inventing Ectoplasm's final palette. Unspecified workbench colors retain VS Code's dark defaults. No reference theme was copied wholesale.
 
-Remaining decisions: final surface/syntax token mapping and priority languages; whether to approve a separate glow experiment; a distribution license and verified Marketplace publisher only if public extension distribution is planned.
+Remaining decisions: final surface/syntax token mapping and priority languages; a distribution license and verified Marketplace publisher only if public extension distribution is planned.

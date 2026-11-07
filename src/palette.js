@@ -54,7 +54,7 @@ export function createTokens(overrides = {}) {
   return Object.freeze({
     // Accent
     accent: color,
-    
+
     // Backgrounds
     bgPrimary:      adjustHsl(color, {lightness: bgBrightness * 1, saturation: bgSaturation * 1}),
     bgSecondary:    adjustHsl(color, {lightness: bgBrightness * 1.25, saturation: bgSaturation * 2}),
@@ -67,17 +67,34 @@ export function createTokens(overrides = {}) {
     border:         `${color}${byte(clamp(0.25) * 255)}`,
 
     // Text
-    textPrimary:    mixHex(mixHex(color, '#FFFFFF', 0.3), '#000000', 0.95),
+    textPrimary:    mixHex(mixHex(color, '#FFFFFF', 0.3), '#000000', 0.85),
     textSecondary:  mixHex(mixHex(color, '#FFFFFF', 0.4), '#000000', 0.6),
     textMuted:      mixHex(mixHex(color, '#FFFFFF', 0.5), '#000000', 0.5),
 
     // Syntax
-    synAccent:   mixHex(color, '#FFFFFF', 0.55),
-    neonBlue:    color,
-    neonPurple:  adjustHsl(color, { hueShift: 55, saturation: 0.9, lightness: 0.73 }),
-    synConstant: adjustHsl(color, { hueShift: -45, saturation: 0.7, lightness: 0.68 }),
-    synString:   adjustHsl(color, { hueShift: -100, saturation: 0.45, lightness: 0.68 }),
+    synParameter:   mixHex(color, '#FFFFFF', 0.65),
+    synGlow:    mixHex(color, '#FFFFFF', 0.45),
+    synKeyword:  adjustHsl(color, { hueShift: 15, saturation: 0.9, lightness: 0.655 }),
+    synConstant: adjustHsl(color, { hueShift: -35, saturation: 0.7, lightness: 0.68 }),
+    synString:   adjustHsl(color, { hueShift: -75, saturation: 0.45, lightness: 0.6 }),
   });
 }
 
 export const tokens = createTokens();
+
+// Shadow hues follow the syntax palette; weights approximate SynthWave's dark
+// outlines and muted green/pink halos without importing its foreground colors.
+export function createGlowColors(palette = tokens) {
+  const glow = (name, outline, halo = 1, outer = halo) => ({
+    foreground: palette[name],
+    outline: mixHex(palette[name], '#000000', outline),
+    halo: mixHex(palette[name], '#000000', halo),
+    outer: mixHex(palette[name], '#000000', outer),
+  });
+  return {
+    synGlow: glow('synGlow', 0.09),
+    synKeyword: { ...glow('synKeyword', 0.06, 0.8), highlight: '#FFFFFF33' },
+    synConstant: glow('synConstant', 0.22),
+    synParameter: glow('synParameter', 0),
+  };
+}
