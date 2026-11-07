@@ -2,7 +2,7 @@
   "name": "ectoplasm",
   "displayName": "Ectoplasm",
   "description": "A dark color theme foundation for the Ectoplasm visual identity.",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "type": "module",
   "publisher": "madebyspook",
   "private": true,
