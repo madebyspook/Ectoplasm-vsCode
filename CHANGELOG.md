@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.4
+
+- Fixed the primary button hover color to use the light electric-blue palette color.
+
 ## 0.9.3
 
 - Centralized explicit palette colors and removed obsolete color calculations; simplified optional glow color generation.
