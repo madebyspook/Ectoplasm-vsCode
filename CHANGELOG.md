@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.3
+
+- Centralized explicit palette colors and removed obsolete color calculations; simplified optional glow color generation.
+- Aligned selections and button states with the shared backgrounds and used the configured neon and light-blue syntax colors.
+- Colored string quotes with the string color, added/untracked Git resources cosmic, and deleted Git resources plasma.
+
 ## 0.9.2
 
 - Removed obsolete preview scaffolding, unused palette/glow code, and tracked generated output; retained main-window live development, packaging, and glow lifecycle.

@@ -1,10 +1,10 @@
-import { tokens as t } from './palette.js';
+import { palette as p, tokens as t } from './palette.js';
 
 export const tokenColors = [
   {
     name: 'General code',
     scope: ['source', 'meta.embedded', 'meta.template.expression', 'meta.fstring'],
-    settings: { foreground: t.textPrimary },
+    settings: { foreground: p.textPrimary },
   },
   {
     name: 'Operators and separators',
@@ -13,7 +13,7 @@ export const tokenColors = [
       'punctuation.terminator',
       'punctuation.separator',
     ],
-    settings: { foreground: t.textSecondary },
+    settings: { foreground: p.textSecondary },
   },
   {
     name: 'Parameters',
@@ -69,7 +69,7 @@ export const tokenColors = [
       'support.function',
       'meta.function-call.generic.python',
     ],
-    settings: { foreground: t.neon },
+    settings: { foreground: p.neon },
   },
   {
     name: 'Strings',
@@ -80,31 +80,35 @@ export const tokenColors = [
     name: 'String punctuation and prefixes',
     scope: [
       'string punctuation',
-      'punctuation.definition.string',
       'storage.type.string',
     ],
-    settings: { foreground: t.textPrimary },
+    settings: { foreground: p.textPrimary },
+  },
+  {
+    name: 'String quotes',
+    scope: ['punctuation.definition.string'],
+    settings: { foreground: t.synString },
   },
   {
     name: 'Comments',
     scope: ['comment', 'comment punctuation'],
-    settings: { foreground: t.textMuted },
+    settings: { foreground: p.textMuted },
   },
 ];
 
 export const semanticTokenColors = {
-  '*': t.textPrimary,
-  comment: t.textMuted,
+  '*': p.textPrimary,
+  comment: p.textMuted,
   string: t.synString,
   variable: t.synVariable,
   parameter: t.synVariable,
-  property: t.textPrimary,
+  property: p.textPrimary,
   enumMember: t.synConstant,
   type: t.synKeyword,
   class: t.synKeyword,
   interface: t.synKeyword,
   typeParameter: t.synKeyword,
-  function: t.neon,
-  method: t.neon,
+  function: p.neon,
+  method: p.neon,
   number: t.synConstant,
 };
