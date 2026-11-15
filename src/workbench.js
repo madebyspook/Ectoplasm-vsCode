@@ -143,7 +143,7 @@ export const colors = {
   'button.background': p.electric,
   'button.foreground': p.bgPrimary,
   'button.border': p.border,
-  'button.hoverBackground': p.bgInteract,
+  'button.hoverBackground': p.electricLight,
   'button.secondaryBackground': p.bgTertiary,
   'button.secondaryForeground': p.textPrimary,
   'button.secondaryHoverBackground': p.bgInteract,
