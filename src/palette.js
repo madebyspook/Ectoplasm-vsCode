@@ -1,12 +1,13 @@
 // Primary configuration for design tokens used by the workbench.
-export const paletteConfig = Object.freeze({
+const paletteConfig = {
   electric: '#3C86FF',
   cosmic: '#4545D9',
-  ice: '#00d9f5',
+  ice: '#00D9F5',
   plasma: '#F044C8',
+  neon: '#C5DAFF',
   bgBrightness: 0.075,
   bgSaturation: 0.1,
-});
+};
 
 const clamp = (value) => Math.min(1, Math.max(0, value));
 const byte = (value) => Math.round(value).toString(16).padStart(2, '0').toUpperCase();
@@ -31,7 +32,6 @@ function adjustHsl(hex, { lightness, saturation, hueShift = 0 }) {
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   const delta = max - min;
-  const originalLightness = (max + min) / 2;
   let hue = 0;
   if (delta !== 0) {
     if (max === r) hue = ((g - b) / delta + 6) % 6;
@@ -39,78 +39,70 @@ function adjustHsl(hex, { lightness, saturation, hueShift = 0 }) {
     else hue = (r - g) / delta + 4;
   }
   if (hueShift !== 0) hue = ((hue + hueShift / 60) % 6 + 6) % 6;
-  const l = clamp(lightness ?? originalLightness);
-  const s = clamp(saturation ?? (delta === 0 ? 0 : delta / (1 - Math.abs(2 * originalLightness - 1))));
+  const l = clamp(lightness);
+  const s = clamp(saturation);
   const chroma = (1 - Math.abs(2 * l - 1)) * s;
   const x = chroma * (1 - Math.abs(hue % 2 - 1));
   const sectors = [[chroma, x, 0], [x, chroma, 0], [0, chroma, x], [0, x, chroma], [x, 0, chroma], [chroma, 0, x]];
   return toHex(sectors[Math.floor(hue)].map((channel) => (channel + l - chroma / 2) * 255));
 }
 
-export function createTokens(overrides = {}) {
-  const { electric, cosmic, ice, plasma, bgBrightness, bgSaturation } = {...paletteConfig, ...overrides, };
-  if (![bgBrightness, bgSaturation].every((value) => Number.isFinite(value) && value >= 0 && value <= 1)) {
-    throw new RangeError('Background brightness and saturation must be between 0 and 1');
-  }
-  const color = toHex(toRgb(electric));
-  const bgTertiary = adjustHsl(color, { lightness: bgBrightness * 1.5, saturation: bgSaturation * 2.5 });
-
-  return Object.freeze({
-    // electric
-    electric: color,
-    neon: adjustHsl(color, { hueShift: 0, saturation: 1, lightness: 0.94 }),
-
-    // Backgrounds
-    bgPrimary:      adjustHsl(color, {lightness: bgBrightness * 1, saturation: bgSaturation * 1}),
-    bgSecondary:    adjustHsl(color, {lightness: bgBrightness * 1.25, saturation: bgSaturation * 2}),
-    bgTertiary,
-    bgInteract:     `${color}${byte(clamp(0.1) * 255)}`,
-    selectActive:   `${color}4D`,
-    selectInactive: `${color}26`,
-
-    // UI
-    border:         `${color}${byte(clamp(0.25) * 255)}`,
-
-    // Buttons
-    buttonHover: mixHex(color, '#FFFFFF', 0.85),
-    buttonBorder: `${color}00`,
-    buttonSecondaryBorder: adjustHsl(color, { saturation: 0, lightness: bgBrightness + 0.2 }),
-    buttonSecondaryHover: mixHex(color, bgTertiary, 0.2),
-
-    // Text
-    textPrimary:    mixHex(mixHex(color, '#FFFFFF', 0.3), '#000000', 0.85),
-    textSecondary:  mixHex(mixHex(color, '#FFFFFF', 0.4), '#000000', 0.6),
-    textMuted:      mixHex(mixHex(color, '#FFFFFF', 0.5), '#000000', 0.5),
-
-    // Syntax
-    // synVariable: mixHex(color, '#FFFFFF', 0.75),
-    synVariable: mixHex(color, '#FFFFFF', 0.5),
-    synGlow:      mixHex(color, '#FFFFFF', 0.45),
-    synKeyword:   cosmic,
-    synConstant:  plasma,
-    synString:    ice,
-    // synString:    adjustHsl(color, { hueShift: -75, saturation: 0.45, lightness: 0.6 }),
-
-    // Source control decorations
-    scmModified: color,
-    scmUntracked: adjustHsl(color, { hueShift: 15, saturation: 0.9, lightness: 0.655 }),
-  });
+const { electric, cosmic, ice, plasma, bgBrightness, bgSaturation } = paletteConfig;
+if (![bgBrightness, bgSaturation].every((value) => Number.isFinite(value) && value >= 0 && value <= 1)) {
+  throw new RangeError('Background brightness and saturation must be between 0 and 1');
 }
+const color = toHex(toRgb(electric));
+const bgTertiary = adjustHsl(color, { lightness: bgBrightness * 1.5, saturation: bgSaturation * 2.5 });
 
-export const tokens = createTokens();
+export const tokens = {
+  // electric
+  electric: color,
+  neon: adjustHsl(color, { saturation: 1, lightness: 0.94 }),
+
+  // Backgrounds
+  bgPrimary:      '#15171c',
+  bgSecondary:    '#171b24',
+  bgTertiary:     '#1c222e',
+  bgInteract:     '#202b40',
+  selectActive:   `${color}4D`,
+  selectInactive: `${color}26`,
+
+  // UI
+  border:         '#243659',
+
+  // Buttons
+  buttonHover: mixHex(color, '#FFFFFF', 0.85),
+  buttonBorder: '#243659',
+  buttonSecondaryBorder: adjustHsl(color, { saturation: 0, lightness: bgBrightness + 0.2 }),
+  buttonSecondaryHover: mixHex(color, bgTertiary, 0.2),
+
+  // Text
+  textPrimary:    '#BBD0F2',
+  textSecondary:  '#6A7C99',
+  textMuted:      '#4F6180',
+
+  // Syntax
+  synVariable: mixHex(color, '#FFFFFF', 0.5),
+  synKeyword:   cosmic,
+  synConstant:  plasma,
+  synString:    ice,
+
+  // Source control decorations
+  scmModified: color,
+  scmUntracked: adjustHsl(color, { hueShift: 15, saturation: 0.9, lightness: 0.655 }),
+};
 
 // Shadow hues follow the syntax palette; weights approximate SynthWave's dark
 // outlines and muted green/pink halos without importing its foreground colors.
-export function createGlowColors(palette = tokens) {
-  const glow = (name, outline, halo = 1, outer = halo, glowColor = name) => ({
-    foreground: palette[name],
-    outline: mixHex(palette[glowColor], '#000000', outline),
-    halo: mixHex(palette[glowColor], '#000000', halo),
-    outer: mixHex(palette[glowColor], '#000000', outer),
+export function createGlowColors() {
+  const glow = (name, outline, halo = 1, glowColor = name) => ({
+    foreground: tokens[name],
+    outline: mixHex(tokens[glowColor], '#000000', outline),
+    halo: mixHex(tokens[glowColor], '#000000', halo),
   });
   return {
-    synGlow: glow('neon', 0.09, 1, 1, 'electric'),
-    synKeyword: { ...glow('synKeyword', 0.06, 0.8), highlight: '#FFFFFF33' },
+    synGlow: glow('neon', 0.09, 1, 'electric'),
+    synKeyword: glow('synKeyword', 0.06, 0.8),
     synConstant: glow('synConstant', 0.22),
     synVariable: glow('synVariable', 0),
   };

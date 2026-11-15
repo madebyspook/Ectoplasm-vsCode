@@ -97,4 +97,4 @@ async function setGlow(appRoot, enabled, script) {
   }
 }
 
-module.exports = { setGlow, inspect, resolveWorkbench };
+module.exports = { setGlow, inspect };

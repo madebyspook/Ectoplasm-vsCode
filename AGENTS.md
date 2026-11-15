@@ -100,59 +100,24 @@ without explicit instructions.
 
 Use the standard VS Code color theme extension architecture.
 
-Expected structure:
-
-    Ectoplasm-vsCode/
-    ├── AGENTS.md
-    ├── package.json
-    ├── package-lock.json
-    ├── README.md
-    ├── CHANGELOG.md
-    ├── LICENSE
-    ├── .gitignore
-    ├── .vscodeignore
-    ├── .vscode/
-    │   ├── launch.json
-    │   ├── settings.json
-    │   └── tasks.json
-    ├── docs/
-    │   └── research.md
-    ├── samples/
-    │   ├── preview.html
-    │   ├── preview.md
-    │   └── preview.ts
-    ├── scripts/
-    │   └── build.mjs
-    ├── src/
-    │   ├── palette.js
-    │   ├── workbench.js
-    │   └── syntax.js
-    └── themes/
-        └── Ectoplasm-color-theme.json
-
-The actual project structure may evolve as development progresses.
+The project consists of `src/`, `scripts/`, `runtime/`, extension metadata,
+the npm lockfile, and minimal documentation. `themes/` and `glow/` are generated
+and ignored; `.dev-extension/` is the ignored local preview registration.
 
 ### Local Commands
 
 - Requires Node.js 22+, npm, and VS Code 1.85+.
-- Run `npm ci` to install the locked development dependencies.
-- Run `npm run build` to generate the theme once, or `npm run watch` to build
-  on startup and rebuild when source modules change using Node's native watcher.
-- Open the repository in VS Code and press F5 using **Preview Ectoplasm**;
-  its pre-launch task builds the theme first.
-  Select **Ectoplasm** in the Extension Development Host's Color Theme picker.
-- Edit `src/palette.js`, `src/workbench.js`, or `src/syntax.js`; with watch mode
-  running, saved changes regenerate the theme and update the host live.
-- Run `npm run check` for read-only generated-output freshness, theme JSON syntax,
-  and glow/runtime JavaScript syntax validation. Run `npm run build` first after
-  source changes. Packaging validates extension metadata through `vsce`.
-- Run `npm run package` to rebuild, validate, and create the ignored `ectoplasm.vsix`.
-- Run `npm run install:local` to install that VSIX using the `code` CLI,
-  or use **Extensions: Install from VSIX…** in VS Code.
-- Optional macOS glow commands live in `runtime/` and use no runtime dependencies.
-  The base theme works independently. The only direct
-  development dependency is `@vscode/vsce`, with a patched `minimatch` override.
-- `.vscodeignore` excludes development files, including this file, from the VSIX.
+- `npm ci` installs locked development dependencies.
+- `npm run build` generates theme and glow files.
+- `npm run dev:link` registers the local Ectoplasm Dev theme. Reload once,
+  select Ectoplasm Dev, then run `npm run watch` for live updates in the main editor.
+- `npm run check` builds and validates generated glow, runtime, and setup script syntax.
+- `npm run package` validates metadata and creates the ignored `ectoplasm.vsix`.
+- `npm run install:local` packages and installs production using the `code` CLI.
+- The local Dev theme uses VS Code's internal `_watch` flag and excludes glow.
+- Optional macOS glow commands in `runtime/` have no runtime dependencies.
+- The only direct development dependency is `@vscode/vsce`, with a `minimatch` override.
+- `.vscodeignore` excludes development files from the VSIX.
 
 ### Source of Truth
 
@@ -163,7 +128,7 @@ The actual project structure may evolve as development progresses.
 - `scripts/build.mjs` combines those native ES modules into the theme JSON.
 - `src/glow.js` generates the separate `glow/ectoplasm-glow.js` renderer script
   from palette-derived shadow colors. `runtime/` handles explicit enable/disable.
-- `themes/Ectoplasm-color-theme.json` is tracked generated output. Regenerate
+- `themes/Ectoplasm-color-theme.json` is ignored generated output. Regenerate
   it with source changes; never edit it manually.
 - The ignored VSIX is a packaging artifact; source modules are not shipped.
 
@@ -279,7 +244,7 @@ Reference projects:
 
 ---
 
-## Testing & Validation
+## Validation
 
 Before completing a task:
 
@@ -290,8 +255,7 @@ Before completing a task:
 5. Verify that changes do not introduce unrelated modifications.
 6. Report any validation steps that could not be completed.
 
-When relevant, test the theme using the VS Code Extension
-Development Host.
+When relevant, verify live updates in the main editor using Ectoplasm Dev.
 
 For packaging-related changes, verify that the extension can
 be packaged as a VSIX.

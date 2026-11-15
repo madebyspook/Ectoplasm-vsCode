@@ -2,9 +2,9 @@ import { createGlowColors, tokens } from './palette.js';
 
 // Dense neon halos, restrained constant/electric shadows, and unlit strings.
 // Foregrounds remain Ectoplasm's.
-export function createGlowStyles(palette = tokens) {
-  const colors = createGlowColors(palette);
-  const neutral = ['textPrimary', 'textSecondary', 'textMuted'].map((key) => palette[key].toLowerCase());
+function createGlowStyles() {
+  const colors = createGlowColors();
+  const neutral = ['textPrimary', 'textSecondary', 'textMuted'].map((key) => tokens[key].toLowerCase());
   const styles = {};
   for (const [name, color] of Object.entries(colors)) {
     const foreground = color.foreground.toLowerCase();
