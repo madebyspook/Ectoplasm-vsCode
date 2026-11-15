@@ -2,338 +2,160 @@
 
 ## Project Overview
 
-Ectoplasm is a custom dark theme for Visual Studio Code, part of the
-Made by Spook ecosystem.
+Ectoplasm is a custom dark Visual Studio Code theme, part of the Made by Spook ecosystem.
 
-The theme shares its visual identity with Ectoplasma for Discord and Notion.
+It shares its visual identity with the Ectoplasm themes for Discord and Notion.
 
-### Project Identity
-
-- Repository: Ectoplasm-vsCode
+- Repository: `Ectoplasm-vsCode`
 - Extension display name: Ectoplasm
-- Theme name: Ectoplasm
 - Theme type: Dark
-- Platform: Visual Studio Code
 - Distribution: VS Code extension (VSIX)
+- Primary platform: macOS
 
-The current theme uses an accent-derived dark palette with optional macOS
-syntax glow. The final visual identity remains under development.
+## Design Guidelines
 
-### Design Goals
-
-- Dark interface with a consistent blue-hued color palette.
-- Visual consistency with the Discord and Notion themes.
-- Clear hierarchy between editor, sidebar, panels, tabs, and menus.
-- Readable syntax highlighting with carefully selected accent colors.
-- Selective glowing text effects without compromising readability.
+- Near-black, blue-tinted backgrounds.
+- Electric-blue accents with selective neon glow.
+- Consistent visual identity across the Ectoplasm theme family.
+- Clear visual hierarchy between editor, sidebar, panels, tabs, and menus.
+- Readable syntax highlighting with distinct but balanced accent colors.
 - Minimal visual clutter and unnecessary decoration.
 
-The existing Ectoplasma themes serve as visual references.
-Do not invent or significantly change the established visual identity
-without explicit instructions.
+### Color Palette
 
----
+The central palette is defined in `src/palette.js`.
 
-## Development Workflow
+Primary colors:
 
-### Branching
+- `electric`: `#3C86FF` — primary blue accent
+- `cosmic`: `#4545D9` — saturated purple-blue
+- `ice`: `#00D9F5` — cyan-blue
+- `plasma`: `#F044C8` — magenta
+- `neon`: nearly white, icy-blue highlight derived from electric
 
-- Never make development changes directly on `main`.
-- Create a dedicated feature branch for each task or related group of changes.
-- Use descriptive branch names, such as:
-  - `feature/syntax-highlighting`
-  - `feature/workbench-colors`
-  - `fix/inactive-tab-contrast`
-  - `refactor/theme-structure`
-- Do not merge branches automatically.
-- Do not delete branches unless explicitly requested.
+Use existing palette tokens and helpers rather than duplicating color values.
 
-### Commits
-
-- Do not automatically commit changes.
-- Do not automatically push changes.
-- Leave all modifications uncommitted for review.
-- After completing a task, suggest a concise commit message.
-- Only commit, push, or merge when explicitly instructed.
-
-### Version Management
-
-- Follow Semantic Versioning (`MAJOR.MINOR.PATCH`).
-- The authoritative version number is defined in `package.json`.
-- Increment the version number for every completed development task
-  that introduces changes to the extension.
-- Use the following rules:
-  - PATCH: Bug fixes, minor styling adjustments, and refinements.
-  - MINOR: New features, significant visual changes, or new styling support.
-  - MAJOR: Breaking changes or substantial redesigns.
-- During initial development, use `0.x.x` versions.
-- Do not increment the version for documentation-only changes.
-- When multiple related changes are performed as part of one task,
-  increment the version only once, using the highest applicable category.
-- Update all files referencing the extension version to remain consistent.
-- Never modify historical version numbers or existing Git tags.
-- Do not create Git tags or releases unless explicitly requested.
-- Include the new version number in the task completion summary.
-- Version changes must remain uncommitted alongside the task changes.
-
-### Scope
-
-- Modify only files relevant to the current task.
-- Do not perform unrelated refactoring or cleanup.
-- Preserve existing behavior unless changes are explicitly requested.
-- Avoid unnecessary abstractions, dependencies, and complexity.
-- Prefer small, maintainable changes over large rewrites.
-- Do not modify other Ectoplasma repositories.
-
-### Documentation
-
-- Keep documentation concise and relevant.
-- Update existing documentation when functionality or workflows change.
-- Do not create documentation files unless they serve a clear purpose.
-- Do not create task summaries, migration notes, or temporary reports
-  as repository files unless explicitly requested.
-- Communicate task results directly in the final response.
-
----
+Do not change the established visual identity unless explicitly requested.
 
 ## Project Architecture
 
-Use the standard VS Code color theme extension architecture.
+The project uses native ES modules to generate the VS Code theme and optional glow functionality.
 
-Expected structure:
+### Source Files
 
-    Ectoplasm-vsCode/
-    ├── AGENTS.md
-    ├── package.json
-    ├── package-lock.json
-    ├── README.md
-    ├── CHANGELOG.md
-    ├── LICENSE
-    ├── .gitignore
-    ├── .vscodeignore
-    ├── .vscode/
-    │   ├── launch.json
-    │   ├── settings.json
-    │   └── tasks.json
-    ├── docs/
-    │   └── research.md
-    ├── samples/
-    │   ├── preview.html
-    │   ├── preview.md
-    │   └── preview.ts
-    ├── scripts/
-    │   └── build.mjs
-    ├── src/
-    │   ├── palette.js
-    │   ├── workbench.js
-    │   └── syntax.js
-    └── themes/
-        └── Ectoplasm-color-theme.json
+- `src/palette.js` — Shared color palette, color utilities, and glow color definitions.
+- `src/workbench.js` — VS Code workbench and editor UI colors.
+- `src/syntax.js` — TextMate and semantic syntax highlighting.
+- `src/glow.js` — Optional syntax and cursor glow generation.
+- `scripts/build.mjs` — Generates theme JSON and glow scripts.
+- `runtime/` — Optional glow enable/disable functionality.
+- `package.json` — Extension metadata, theme registration, and development commands.
 
-The actual project structure may evolve as development progresses.
+### Generated Files
 
-### Local Commands
+- `themes/` — Generated VS Code theme JSON.
+- `glow/` — Generated glow injection script.
+- `.dev-extension/` — Local development theme registration.
+- `ectoplasm.vsix` — Packaged extension.
 
-- Requires Node.js 22+, npm, and VS Code 1.85+.
-- Run `npm ci` to install the locked development dependencies.
-- Run `npm run build` to generate the theme once, or `npm run watch` to build
-  on startup and rebuild when source modules change using Node's native watcher.
-- Open the repository in VS Code and press F5 using **Preview Ectoplasm**;
-  its pre-launch task builds the theme first.
-  Select **Ectoplasm** in the Extension Development Host's Color Theme picker.
-- Edit `src/palette.js`, `src/workbench.js`, or `src/syntax.js`; with watch mode
-  running, saved changes regenerate the theme and update the host live.
-- Run `npm run check` for read-only generated-output freshness, theme JSON syntax,
-  and glow/runtime JavaScript syntax validation. Run `npm run build` first after
-  source changes. Packaging validates extension metadata through `vsce`.
-- Run `npm run package` to rebuild, validate, and create the ignored `ectoplasm.vsix`.
-- Run `npm run install:local` to install that VSIX using the `code` CLI,
-  or use **Extensions: Install from VSIX…** in VS Code.
-- Optional macOS glow commands live in `runtime/` and use no runtime dependencies.
-  The base theme works independently. The only direct
-  development dependency is `@vscode/vsce`, with a patched `minimatch` override.
-- `.vscodeignore` excludes development files, including this file, from the VSIX.
+Generated files are ignored by Git.
 
-### Source of Truth
+Edit source files rather than generated output.
 
-- `package.json` defines extension metadata and theme registration.
-- `src/palette.js` is authoritative for shared color values.
-- `src/workbench.js` maps workbench color keys to the palette.
-- `src/syntax.js` defines TextMate and semantic token rules using the palette.
-- `scripts/build.mjs` combines those native ES modules into the theme JSON.
-- `src/glow.js` generates the separate `glow/ectoplasm-glow.js` renderer script
-  from palette-derived shadow colors. `runtime/` handles explicit enable/disable.
-- `themes/Ectoplasm-color-theme.json` is tracked generated output. Regenerate
-  it with source changes; never edit it manually.
-- The ignored VSIX is a packaging artifact; source modules are not shipped.
+## Development Workflow
 
-Do not manually edit generated files when source files are available.
+### Requirements
 
----
+- Node.js 22+
+- npm
+- VS Code 1.85+
 
-## Theme Development
+### Commands
 
-### Workbench Colors
+- `npm ci` — Install development dependencies.
+- `npm run build` — Generate theme and glow files.
+- `npm run dev:link` — Register the local Ectoplasm Dev theme.
+- `npm run watch` — Rebuild automatically when source files change.
+- `npm run check` — Validate generated glow, runtime, and setup script syntax.
+- `npm run package` — Build and package the VSIX.
+- `npm run install:local` — Package and install the production extension.
 
-Use the official VS Code theme color API.
+### Live Theme Development
 
-Customize interface elements through the theme's `colors` definitions.
+The project supports live color updates directly in the main VS Code editor.
 
-Relevant areas include:
+Setup:
 
-- Editor
-- Sidebar
-- Activity Bar
-- Status Bar
-- Title Bar
-- Tabs
-- Panels
-- Terminal
-- Menus
-- Notifications
-- Inputs and selections
+1. Run `npm run dev:link`.
+2. Reload VS Code once.
+3. Select the `Ectoplasm Dev` color theme.
+4. Start `npm run watch`.
+5. Edit and save source files to see theme changes.
 
-Maintain consistent surface colors and visual hierarchy.
+The development theme uses VS Code's internal `_watch` functionality.
 
-Avoid unnecessary variations of nearly identical colors.
+The development theme does not include optional glow injection.
 
-### Syntax Highlighting
+Preserve this workflow when modifying build scripts, theme registration, or development tooling.
 
-Use standard VS Code theme mechanisms:
+## Syntax Highlighting
+
+Use VS Code's standard syntax highlighting mechanisms:
 
 - TextMate token scopes
 - Semantic token colors
 
-Prioritize readability and consistent syntax categories.
+Syntax colors are defined centrally in `src/palette.js` and assigned in `src/syntax.js`.
 
-Avoid excessive color variation.
+Keep syntax categories visually consistent across languages.
 
-Ensure syntax highlighting remains usable across different
-programming languages.
+Avoid overly broad TextMate selectors that unintentionally override unrelated syntax.
 
-Do not override semantic highlighting unnecessarily.
+Preserve existing distinctions between keywords, functions, variables, parameters, constants, strings, and properties unless explicitly requested.
 
-### Color Management
+## Optional Glow
 
-- Prefer a centralized palette when technically practical.
-- Avoid scattering duplicate color values across multiple source files.
-- Use descriptive names for shared colors.
-- Keep the final theme compatible with VS Code's supported JSON format.
-- Do not introduce a build system solely for color variables unless
-  it provides a meaningful maintenance benefit.
+The standard Ectoplasm theme must work independently of the optional glow functionality.
 
-### Glow Effects
+Glow is implemented through a separately generated script injected into the VS Code workbench.
 
-Glowing text is an optional visual enhancement.
+- `src/glow.js` defines glow generation and injection behavior.
+- `runtime/` manages explicit glow enable/disable operations.
+- Glow applies to selected syntax colors and the editor cursor.
+- Syntax glow uses foreground-color matching to identify token classes.
+- Cursor glow uses a nearly white foreground with an electric-blue halo.
+- Glow is optional and intended for the supported macOS environment.
 
-The standard theme must remain fully functional without glow.
+### Constraints
 
-Rules:
+- Do not automatically enable or inject glow.
+- Keep glow functionality separate from the standard theme.
+- Preserve explicit enable/disable behavior and cleanup.
+- Preserve theme-specific CSS scoping.
+- Avoid applying glow indiscriminately to all syntax.
+- Do not modify VS Code installation files outside the existing approved glow workflow.
+- Do not introduce additional integrity or security workarounds without explicit approval.
 
-- Prefer officially supported VS Code APIs.
-- Keep unsupported CSS modifications separate from the theme.
-- Do not inject custom CSS automatically.
-- Do not modify VS Code installation files without explicit approval.
-- Do not introduce security or integrity workarounds without explaining
-  their implications and obtaining approval.
-- Preserve readability when glow is enabled.
-- Avoid applying glow indiscriminately to all text.
+The glow system uses unsupported workbench modifications and may trigger VS Code integrity warnings.
 
-Investigate existing implementations before introducing a glow system.
+## Packaging
 
-Reference projects:
+- `package.json` defines extension metadata and theme contributions.
+- `package-lock.json` maintains dependency versions.
+- `.vscodeignore` excludes development files from the packaged extension.
+- Generated theme files must be included in the VSIX.
+- Source modules and development utilities should not be shipped unless required.
 
-- Xav1erSue/code-glow
-- robb0wen/synthwave-vscode
+The production extension and local development theme must remain independent.
 
----
+## Project-Specific Constraints
 
-## Code Quality
+- Do not modify other Ectoplasm repositories.
+- Preserve the current live development workflow.
+- Keep the production theme functional without glow.
+- Preserve the existing glow lifecycle when modifying injection logic.
+- Keep the repository minimal, with no automated test infrastructure.
+- Do not introduce unnecessary dependencies, compatibility layers, or fallback implementations.
+- Keep documentation limited to information needed to maintain and develop the project.
 
-### General
-
-- Follow existing project conventions.
-- Keep configuration files readable and consistently formatted.
-- Avoid unnecessary dependencies.
-- Prefer supported, stable VS Code extension APIs.
-- Do not introduce deprecated APIs when supported alternatives exist.
-- Preserve compatibility with the VS Code versions declared in
-  `package.json`.
-
-### Theme Files
-
-- Use valid JSON or JSONC only where supported.
-- Keep color definitions organized logically.
-- Avoid duplicate keys.
-- Avoid unused token definitions.
-- Do not remove existing styling without checking its purpose.
-- Preserve intentional exceptions to general styling rules.
-
-### Dependencies
-
-- Keep runtime dependencies to a minimum.
-- Prefer development dependencies for build and packaging tools.
-- Do not add libraries without a clear technical reason.
-- Do not introduce frameworks for functionality achievable through
-  standard theme configuration.
-
----
-
-## Testing & Validation
-
-Before completing a task:
-
-1. Validate modified JSON and configuration files.
-2. Verify that the extension manifest remains valid.
-3. Run applicable project validation or build commands.
-4. Check for duplicate or invalid theme definitions.
-5. Verify that changes do not introduce unrelated modifications.
-6. Report any validation steps that could not be completed.
-
-When relevant, test the theme using the VS Code Extension
-Development Host.
-
-For packaging-related changes, verify that the extension can
-be packaged as a VSIX.
-
-Do not claim visual validation unless the theme was actually
-previewed in VS Code.
-
----
-
-## Git Safety
-
-- Never force-push.
-- Never reset or discard uncommitted changes without permission.
-- Never overwrite user modifications without checking them.
-- Do not amend existing commits unless explicitly instructed.
-- Do not change repository configuration without a clear reason.
-- Do not perform destructive Git operations without approval.
-
----
-
-## Task Completion
-
-After completing a task, provide a concise summary containing:
-
-1. What changed.
-2. Relevant implementation details or decisions.
-3. Validation performed and its results.
-4. Any unresolved issues or limitations.
-5. The new version number, if changed.
-6. A suggested commit message.
-
-Keep the summary proportional to the task.
-
-Do not create a separate summary document.
-
----
-
-## Guiding Principles
-
-- Maintain consistency with the Ectoplasm visual identity.
-- Prefer maintainability over clever implementations.
-- Keep the standard theme independent of optional enhancements.
-- Respect existing project architecture and conventions.
-- Make only the changes necessary to fulfill the task.
-- When requirements are ambiguous, ask rather than assume.
+Global Codex instructions govern Git workflow, commits, pull requests, versioning, coding conventions, and validation.

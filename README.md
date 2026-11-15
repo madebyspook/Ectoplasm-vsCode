@@ -1,52 +1,60 @@
 # Ectoplasm
-A dark VS Code theme built around a configurable accent color, subtle backgrounds, and distinct syntax highlighting.
-Includes optional neon syntax glow inspired by [SynthWave '84](https://github.com/robb0wen/synthwave-vscode).
+A dark VS Code theme with a shared accent-derived palette and optional macOS syntax and cursor glow.
 
-## Installation
+## Install
 Requires VS Code 1.85+, Node.js 22+, and npm.
 ```bash
 npm ci
 npm run install:local
 ```
+Select **Ectoplasm** under **Preferences: Color Theme**. Local installation builds,
+packages, and installs `ectoplasm.vsix`; it does not enable glow automatically.
 
-Select **Ectoplasm** under **Preferences: Color Theme**.
-The extension is currently available for local installation only.
-
-## Development
-The theme uses a shared palette to generate workbench and syntax highlighting colors.
-- `src/palette.js` — Colors and design tokens.
-- `src/workbench.js` — VS Code interface colors.
-- `src/syntax.js` — Syntax highlighting rules.
-- `src/glow.js` — Optional syntax glow.
-- `samples/` — Files for manually previewing syntax highlighting.
-
-To rebuild automatically during development:
+## Develop in the main editor window
+One-time setup:
+```bash
+npm run dev:link
+```
+Run **Developer: Reload Window** once and select **Ectoplasm Dev**. Then run:
 ```bash
 npm run watch
 ```
+Save changes in `src/palette.js`, `src/workbench.js`, or `src/syntax.js` to update
+that window automatically. Check the terminal for build errors if colors stop
+updating. User/workspace color customizations can override theme rules.
 
-Press **F5** to preview the theme in an Extension Development Host.
+The local Dev extension links directly to generated `themes/` through the ignored
+`.dev-extension/` directory. It uses VS Code's internal, unsupported `_watch` flag;
+future VS Code changes may affect it. For a custom extensions directory, run
+`node scripts/link-dev-theme.mjs /path/to/extensions` after building.
 
-To validate and package:
-```bash
-npm run check
-npm run package
-```
+Select **Ectoplasm** to return to production. Run `npm run install:local` when you
+want to apply source changes to the installed production extension. Dev preview
+has no glow; the production glow patch remains untouched.
 
-Generated theme and glow files should not be edited directly.
-`npm run check` validates generated-output freshness, theme JSON syntax, and
-glow/runtime JavaScript syntax. Packaging validates extension metadata through `vsce`.
+To remove Dev preview, delete only the `~/.vscode/extensions/madebyspook.ectoplasm-dev`
+link, then reload. Remove this link before moving the repository and rerun setup
+afterward. The ignored `.dev-extension/` directory can also be removed.
 
-## Optional Glow
-Ectoplasm supports optional neon syntax and editor cursor glow on macOS.
-To enable it, open the Command Palette and run **Ectoplasm: Enable Glow**, then reload VS Code.
-To disable it, run **Ectoplasm: Disable Glow** and reload.
-Glow applies selectively to syntax highlighting and adds a stronger electric-blue halo around the editor cursor, whose foreground uses the near-white `neon` token. Both effects are scoped to Ectoplasm.
+## Build and package
+- `npm run build` generates the theme JSON and separate glow script.
+- `npm run check` builds and checks generated glow, runtime, and setup JavaScript syntax.
+- `npm run package` validates metadata and creates `ectoplasm.vsix`.
 
-**Important:** VS Code does not officially support syntax glow. Enabling it modifies VS Code's workbench files and may trigger an **[Unsupported]** warning. Disable glow before uninstalling the extension. VS Code or extension updates may require enabling glow again.
+Generated `themes/`, `glow/`, `.dev-extension/`, and VSIX files are ignored by Git.
+Do not edit generated files. Packaging includes the generated theme and glow,
+plus the runtime commands; source and development files are excluded.
 
-## Credits
-Syntax glow inspired by [SynthWave '84 by Robb Owen](https://github.com/robb0wen/synthwave-vscode).
-Ectoplasm is an independent project and is not affiliated with SynthWave '84.
+## Optional glow
+On macOS desktop VS Code, run **Ectoplasm: Enable Glow** and reload. To remove
+it, run **Ectoplasm: Disable Glow** and reload. Disable glow before uninstalling.
+App updates can remove the patch; changed glow colors require enabling it again.
+
+Glow modifies VS Code's workbench files through an explicit confirmation and may
+trigger an **[Unsupported]** warning. It is scoped to production **Ectoplasm**.
+The standard theme works independently.
+
+Inspired by [SynthWave '84 by Robb Owen](https://github.com/robb0wen/synthwave-vscode).
+Ectoplasm is independent and unaffiliated.
 
 **License:** UNLICENSED / All rights reserved.

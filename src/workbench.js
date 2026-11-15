@@ -27,7 +27,7 @@ export const colors = {
   'editorGutter.background': t.bgPrimary,
   'editorLineNumber.foreground': t.textMuted,
   'editorCursor.foreground': t.neon,
-    // Bracket pair colorization
+  // Bracket pair colorization
   'editorBracketHighlight.foreground1': t.textSecondary,
   'editorBracketHighlight.foreground2': t.textSecondary,
   'editorBracketHighlight.foreground3': t.textSecondary,

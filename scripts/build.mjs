@@ -21,19 +21,7 @@ const outputs = [
 
 for (const [path, content] of outputs) {
   const output = new URL(`../${path}`, import.meta.url);
-  if (process.argv.includes('--check')) {
-    const current = await readFile(output, 'utf8').catch((error) => {
-      if (error.code === 'ENOENT') return null;
-      throw error;
-    });
-    if (current !== null && path.endsWith('.json')) JSON.parse(current);
-    if (current !== content) {
-      console.error(`Generated ${path} is missing or outdated. Run npm run build.`);
-      process.exitCode = 1;
-    }
-  } else {
-    await mkdir(new URL('.', output), { recursive: true });
-    await writeFile(output, content);
-    console.log(`Generated ${path}`);
-  }
+  await mkdir(new URL('.', output), { recursive: true });
+  await writeFile(output, content);
+  console.log(`Generated ${path}`);
 }

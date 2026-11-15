@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.2
+
+- Removed obsolete preview scaffolding, unused palette/glow code, and tracked generated output; retained main-window live development, packaging, and glow lifecycle.
+
+## 0.9.1
+
+- Added an opt-in local Ectoplasm Dev theme for live color previews in the source editor window, separate from the installed extension.
+
 ## 0.9.0
 
 - Added electric, cosmic, ice, and plasma palette configuration for blue interface accents, purple types, cyan strings, and pink constants.
