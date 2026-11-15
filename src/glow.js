@@ -1,10 +1,10 @@
-import { createGlowColors, tokens } from './palette.js';
+import { createGlowColors, palette } from './palette.js';
 
 // Dense neon halos, restrained constant/electric shadows, and unlit strings.
 // Foregrounds remain Ectoplasm's.
 function createGlowStyles() {
   const colors = createGlowColors();
-  const neutral = ['textPrimary', 'textSecondary', 'textMuted'].map((key) => tokens[key].toLowerCase());
+  const neutral = ['textPrimary', 'textSecondary', 'textMuted'].map((key) => palette[key].toLowerCase());
   const styles = {};
   for (const [name, color] of Object.entries(colors)) {
     const foreground = color.foreground.toLowerCase();
@@ -119,6 +119,6 @@ function installGlow(config) {
 export function createGlowScript(manifest) {
   const themePath = manifest.contributes.themes[0].path.replace(/^\.\//, '');
   const themeClass = `${manifest.publisher}.${manifest.name}-${themePath}`.replace(/[^_a-zA-Z0-9-]/g, '-');
-  const config = { scope: `.monaco-workbench.${themeClass}`, electric: tokens.electric, styles: createGlowStyles() };
+  const config = { scope: `.monaco-workbench.${themeClass}`, electric: palette.electric, styles: createGlowStyles() };
   return `// Ectoplasm syntax glow: managed workbench script\n(${installGlow.toString()})(${JSON.stringify(config, null, 2)});\n`;
 }
