@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.5
+
+- Colored HTML, JSX, and TSX tag delimiters with the bracket gray and tag names with the keyword color, preserving attributes and values.
+
 ## 0.9.4
 
 - Fixed the primary button hover color to use the light electric-blue palette color.
