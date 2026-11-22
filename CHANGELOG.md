@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.6
+
+- Colored HTML, JSX, and TSX attribute names with the variable color, preserving attribute values, tag names, and delimiters.
+
 ## 0.9.5
 
 - Colored HTML, JSX, and TSX tag delimiters with the bracket gray and tag names with the keyword color, preserving attributes and values.
