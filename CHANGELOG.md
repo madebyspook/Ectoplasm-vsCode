@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.7
+
+- Added Astro syntax highlighting using the existing HTML, JavaScript, and TypeScript colors, including frontmatter, expressions, components, and delimiters.
+
 ## 0.9.6
 
 - Colored HTML, JSX, and TSX attribute names with the variable color, preserving attribute values, tag names, and delimiters.
